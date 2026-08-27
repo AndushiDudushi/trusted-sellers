@@ -79,8 +79,9 @@ const VENDORS = {
     category: "Clothes",
     accent: "#34D399",
     monogram: "R",
-    founded: "Selling since 2018",
+    founded: "Joining soon",
     verified: true,
+    comingSoon: true,
     followers: "9.8k",
     rating: 4.9,
     sales: "6,540",
@@ -105,8 +106,9 @@ const VENDORS = {
     category: "Tech",
     accent: "#8B5CF6",
     monogram: "T",
-    founded: "Selling since 2020",
+    founded: "Joining soon",
     verified: true,
+    comingSoon: true,
     followers: "18.7k",
     rating: 4.7,
     sales: "11,230",
@@ -182,6 +184,7 @@ function _mkMomo(r, idx) {
       r.y ? "More colours on the Yupoo album" : "Best & budget batch options",
     ],
     image: r.im,
+    gallery: (typeof MOMO_GALLERIES !== "undefined" && MOMO_GALLERIES[r.id]) || [r.im],
   };
 }
 
@@ -313,7 +316,13 @@ const OTHER_PRODUCTS = [
   },
 ];
 
-const PRODUCTS = MOMOKICKS_PRODUCTS.concat(PJS_PRODUCTS, OTHER_PRODUCTS);
+/* Coming-soon sellers (Reviving, MonsterTech) hold their slot on the site
+   but their demo products stay out of the live catalog until real inventory
+   is added — this also auto-hides their placeholder categories. */
+const PRODUCTS = MOMOKICKS_PRODUCTS.concat(
+  PJS_PRODUCTS,
+  OTHER_PRODUCTS.filter((p) => !(VENDORS[p.vendor] && VENDORS[p.vendor].comingSoon))
+);
 
 const QC_CONFIG = { endpoint: null, apiKey: null };
 

@@ -246,7 +246,7 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-10 pb-12">
           <div class="col-span-2">
             <a href="index.html" class="inline-block mb-4">${logoHTML()}</a>
-            <p class="text-sm leading-relaxed max-w-sm" style="color:var(--ink-muted)">A showcase of four verified sellers covering shoes, Nike, clothes and tech. Browse the catalog, then order directly from the seller on WhatsApp or Discord.</p>
+            <p class="text-sm leading-relaxed max-w-sm" style="color:var(--ink-muted)">A curated showcase of trusted sellers — sneakers and grails now, with clothing and tech sellers joining soon. Browse the catalog, then order directly from the seller on WhatsApp, Discord or Weidian.</p>
           </div>
           <div>
             <p class="text-sm font-semibold mb-4">Sellers</p>
@@ -521,6 +521,60 @@
   }
 
   /* ----------------------------------------------------------
+     Lightbox — full-screen zoom for product photo galleries
+  ---------------------------------------------------------- */
+  const Lightbox = (() => {
+    let el, imgEl, countEl, list = [], idx = 0;
+    function build() {
+      el = document.createElement("div");
+      el.className = "lightbox";
+      el.innerHTML = `
+        <button class="lb-btn lb-close" aria-label="Close">${ICON.close || "×"}</button>
+        <button class="lb-btn lb-nav lb-prev" aria-label="Previous photo">‹</button>
+        <figure class="lb-stage"><img class="lb-img" alt="" /></figure>
+        <button class="lb-btn lb-nav lb-next" aria-label="Next photo">›</button>
+        <div class="lb-count"></div>`;
+      imgEl = el.querySelector(".lb-img");
+      countEl = el.querySelector(".lb-count");
+      el.querySelector(".lb-close").onclick = close;
+      el.querySelector(".lb-prev").onclick = (e) => { e.stopPropagation(); go(-1); };
+      el.querySelector(".lb-next").onclick = (e) => { e.stopPropagation(); go(1); };
+      el.addEventListener("click", (e) => { if (e.target === el || e.target.classList.contains("lb-stage")) close(); });
+      let sx = 0;
+      el.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; }, { passive: true });
+      el.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); });
+      document.body.appendChild(el);
+    }
+    function render() {
+      imgEl.src = list[idx] || "";
+      const multi = list.length > 1;
+      countEl.textContent = multi ? `${idx + 1} / ${list.length}` : "";
+      el.classList.toggle("lb-single", !multi);
+    }
+    function go(d) { idx = (idx + d + list.length) % list.length; render(); }
+    function onKey(e) {
+      if (e.key === "Escape") close();
+      else if (e.key === "ArrowLeft") go(-1);
+      else if (e.key === "ArrowRight") go(1);
+    }
+    function open(images, start) {
+      if (!el) build();
+      list = (images && images.length ? images : [""]);
+      idx = Math.max(0, Math.min(start || 0, list.length - 1));
+      render();
+      requestAnimationFrame(() => el.classList.add("is-open"));
+      document.body.style.overflow = "hidden";
+      document.addEventListener("keydown", onKey);
+    }
+    function close() {
+      el.classList.remove("is-open");
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    }
+    return { open };
+  })();
+
+  /* ----------------------------------------------------------
      Scroll reveal
   ---------------------------------------------------------- */
   function observeReveals(scope = document) {
@@ -611,8 +665,9 @@
     qs("#seller-row").innerHTML = Object.values(VENDORS)
       .map(
         (v, i) => `
-      <a class="cat-circle reveal" style="--accent:${v.accent}; --reveal-delay:${i * 40}ms" href="vendor.html?v=${v.slug}" aria-label="${attr(v.name)}, ${attr(v.category)} seller">
+      <a class="cat-circle reveal${v.comingSoon ? " is-soon" : ""}" style="--accent:${v.accent}; --reveal-delay:${i * 40}ms" href="vendor.html?v=${v.slug}" aria-label="${attr(v.name)}, ${attr(v.category)} seller${v.comingSoon ? " (coming soon)" : ""}">
         <span class="ring"><img src="${attr(v.avatar)}" alt="" loading="lazy" /></span>
+        ${v.comingSoon ? `<span class="ring-soon">Soon</span>` : ""}
         <span class="label">${esc(v.name)}</span>
       </a>`
       )
@@ -665,19 +720,25 @@
     const strip = qs("#trending-sellers");
     strip.innerHTML = Object.values(VENDORS)
       .map((v, i) => {
-        const from = Math.min(...PRODUCTS.filter((p) => p.vendor === v.slug).map((p) => p.price));
         const following = Follows.has(v.slug);
+        const prices = PRODUCTS.filter((p) => p.vendor === v.slug).map((p) => p.price).filter((n) => n != null);
+        const soon = v.comingSoon || !prices.length;
+        const meta = soon ? "Coming soon" : `${esc(v.category)} · From ${money(Math.min(...prices), v.baseCurrency || "USD")}`;
         return `
-        <div class="seller-card flex items-center gap-3.5 reveal" style="--accent:${v.accent}; --reveal-delay:${i * 60}ms">
+        <div class="seller-card flex items-center gap-3.5 reveal${soon ? " is-soon" : ""}" style="--accent:${v.accent}; --reveal-delay:${i * 60}ms">
           <a href="vendor.html?v=${v.slug}" class="seller-avatar shrink-0" aria-label="Visit ${attr(v.name)}"><img src="${attr(v.avatar)}" alt="" loading="lazy" /></a>
           <a href="vendor.html?v=${v.slug}" class="min-w-0 flex-1">
             <span class="flex items-center gap-1.5">
               <span class="text-sm font-semibold truncate">${esc(v.name)}</span>
-              <span class="verified-badge shrink-0">${ICON.badgeCheck}</span>
+              ${soon ? `<span class="soon-pill shrink-0">Soon</span>` : `<span class="verified-badge shrink-0">${ICON.badgeCheck}</span>`}
             </span>
-            <span class="text-xs mt-1 block" style="color:var(--ink-faint)">${esc(v.category)} · From ${money(from, v.baseCurrency || "USD")}</span>
+            <span class="text-xs mt-1 block" style="color:var(--ink-faint)">${meta}</span>
           </a>
-          <button class="btn btn-primary follow-btn !min-h-[36px] !px-4 !text-xs shrink-0 ${following ? "is-following" : ""}" data-follow="${v.slug}" aria-pressed="${following}">${following ? "Following" : "Follow"}</button>
+          ${
+            soon
+              ? `<a href="vendor.html?v=${v.slug}" class="btn btn-ghost !min-h-[36px] !px-4 !text-xs shrink-0">Preview</a>`
+              : `<button class="btn btn-primary follow-btn !min-h-[36px] !px-4 !text-xs shrink-0 ${following ? "is-following" : ""}" data-follow="${v.slug}" aria-pressed="${following}">${following ? "Following" : "Follow"}</button>`
+          }
         </div>`;
       })
       .join("");
@@ -914,6 +975,23 @@
     document.title = `${v.name} — Trusted Sellers`;
     document.documentElement.style.setProperty("--accent", v.accent);
 
+    if (v.comingSoon) {
+      qs("#vendor-hero").innerHTML = `
+        <div class="vendor-hero-wash border-b hairline" style="--accent:${v.accent}">
+          <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-20 text-center">
+            <span class="seller-avatar !w-[80px] !h-[80px] mx-auto mb-6" style="border-color:${v.accent}"><img src="${attr(v.avatar)}" alt="" /></span>
+            <span class="soon-pill mb-4 inline-block">Coming soon</span>
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">${esc(v.name)}</h1>
+            <p class="text-[15px] leading-relaxed mb-8 mx-auto max-w-xl" style="color:var(--ink-muted)">${esc(v.description)}</p>
+            <p class="text-sm mb-8" style="color:var(--ink-faint)">${esc(v.category)} · this seller is being onboarded. Their catalog will appear here once it's live.</p>
+            <a href="index.html" class="btn btn-ghost">Back to the sellers that are live</a>
+          </div>
+        </div>`;
+      const products = qs("#vendor-products");
+      if (products) products.innerHTML = "";
+      return;
+    }
+
     qs("#vendor-hero").innerHTML = `
       <div class="vendor-hero-wash border-b hairline" style="--accent:${v.accent}">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12 grid lg:grid-cols-[1fr_380px] gap-10 items-center">
@@ -1147,14 +1225,16 @@
       </nav>
       <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
         <div>
-          <div class="product-media !rounded-2xl !aspect-square" style="--accent:${v.accent}">
+          <div id="pdp-media" class="product-media !rounded-2xl !aspect-square cursor-zoom-in" style="--accent:${v.accent}">
             ${p.batch || p.tag ? `<span class="tag-pill">${esc(p.batch || p.tag)}</span>` : ""}
             <img id="pdp-image" src="${attr(p.image)}" alt="${attr(p.name)}" />
+            <span class="media-zoom"><span class="w-4 h-4 block">${ICON.gallery}</span>Tap to zoom</span>
           </div>
+          <div id="pdp-thumbs" class="qc-thumbs mt-3"></div>
           ${
             p.yupoo
-              ? `<a href="${attr(p.yupoo)}" target="_blank" rel="noopener" class="mt-4 surface-card p-4 flex items-center justify-between gap-3 transition-colors duration-200 hover:bg-[#232326]">
-                   <span class="flex items-center gap-2 text-sm font-medium"><span class="w-4 h-4 block" style="color:var(--ink-muted)">${ICON.gallery}</span>See more colours & photos on Yupoo</span>
+              ? `<a href="${attr(p.yupoo)}" target="_blank" rel="noopener" class="mt-3 surface-card p-4 flex items-center justify-between gap-3 transition-colors duration-200 hover:bg-[#232326]">
+                   <span class="flex items-center gap-2 text-sm font-medium"><span class="w-4 h-4 block" style="color:var(--ink-muted)">${ICON.gallery}</span>See every colour on the Yupoo album</span>
                    <span class="w-4 h-4 block" style="color:var(--ink-faint)">${ICON.arrowUpRight}</span>
                  </a>`
               : ""
@@ -1218,6 +1298,29 @@
           </div>
         </div>
       </div>`;
+
+    /* Photo gallery: main image + colourway thumbnails + lightbox */
+    const gallery = (p.gallery && p.gallery.length ? p.gallery : [p.image]).filter(Boolean);
+    let curImg = 0;
+    const mainImg = qs("#pdp-image");
+    const thumbs = qs("#pdp-thumbs");
+    const setImg = (i) => {
+      curImg = (i + gallery.length) % gallery.length;
+      mainImg.src = gallery[curImg];
+      qsa(".qc-thumb", thumbs).forEach((t, idx) => t.classList.toggle("is-active", idx === curImg));
+    };
+    if (gallery.length > 1) {
+      thumbs.innerHTML = gallery
+        .map((src, i) => `<button class="qc-thumb ${i === 0 ? "is-active" : ""}" data-g="${i}" aria-label="Photo ${i + 1}"><img src="${attr(src)}" alt="" loading="lazy" /></button>`)
+        .join("");
+      thumbs.addEventListener("click", (e) => {
+        const b = e.target.closest("[data-g]");
+        if (b) setImg(Number(b.dataset.g));
+      });
+    } else {
+      thumbs.remove();
+    }
+    qs("#pdp-media").addEventListener("click", () => Lightbox.open(gallery, curImg));
 
     /* Save for later */
     qs("#pdp-fav").addEventListener("click", (e) => {
