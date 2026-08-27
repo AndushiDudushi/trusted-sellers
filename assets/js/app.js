@@ -42,6 +42,7 @@
     search: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
     camera: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>',
     close: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+    share: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>',
     arrowRight: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
     arrowUpRight: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>',
     check: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>',
@@ -138,23 +139,6 @@
     const vendorMates = PRODUCTS.filter((x) => x.vendor === p.vendor && x.id !== p.id).map((x) => x.image);
     return [p.image, ...mates, ...vendorMates].filter((u, i, a) => a.indexOf(u) === i).slice(0, 5);
   }
-  function reviewsFor(p) {
-    const pool = ["Audio", "Peripherals", "Watches"].includes(p.category) ? REVIEWS_GEAR : REVIEWS_WEAR;
-    const h = hashOf(p.id);
-    return [0, 1, 2].map((i) => pool[(h + i * 2) % pool.length]);
-  }
-  function distributionFor(rating) {
-    const p5 = Math.min(88, Math.max(55, Math.round((rating - 3.9) * 88)));
-    const p4 = Math.max(6, 94 - p5);
-    return [
-      [5, p5],
-      [4, p4],
-      [3, 4],
-      [2, 1],
-      [1, 1],
-    ];
-  }
-
   /* Subcategories of a top-level category (derived from products) */
   function subcategoriesOf(catSlug) {
     const seen = new Map();
@@ -192,6 +176,7 @@
     const navLinks = [
       ["index.html", "Home", "home"],
       ["shop.html", "Browse", "shop"],
+      ["how-to-buy.html", "How to buy", "howto"],
     ];
 
     const header = document.createElement("header");
@@ -265,6 +250,7 @@
               <li><a class="link-line" href="shop.html">All Products</a></li>
               <li><a class="link-line" href="shop.html?tag=New">New Arrivals</a></li>
               <li><a class="link-line" href="shop.html?tag=Hot">Hot Right Now</a></li>
+              <li><a class="link-line" href="how-to-buy.html">How to buy</a></li>
               <li><a class="link-line" href="shop.html?fav=1">Saved Items</a></li>
             </ul>
           </div>
@@ -272,9 +258,9 @@
         <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 border-t hairline text-xs" style="color:var(--ink-faint)">
           <p>© 2026 Trusted Sellers. A showcase catalog. Orders are handled directly by each seller.</p>
           <p class="flex items-center gap-4">
-            <a href="#" class="link-line">Privacy</a>
-            <a href="#" class="link-line">Terms</a>
-            <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 block" style="color:var(--brand)">${ICON.badgeCheck}</span>Sellers identity-verified</span>
+            <a href="how-to-buy.html" class="link-line">How to buy</a>
+            <a href="https://discord.gg/dcDbp3ENG8" target="_blank" rel="noopener" class="link-line">Discord</a>
+            <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 block" style="color:var(--brand)">${ICON.badgeCheck}</span>Order direct from the seller</span>
           </p>
         </div>
       </div>`;
@@ -1091,8 +1077,7 @@
           </a>
           <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">${esc(p.name)}</h1>
           <div class="flex items-center gap-3 mb-5">
-            <span class="rating !text-sm"><span class="star !w-4 !h-4">${ICON.star}</span>${p.rating.toFixed(1)}</span>
-            <span class="text-sm" style="color:var(--ink-faint)">${p.reviews} reviews · ${p.totalColorways} colourways</span>
+            <span class="text-sm" style="color:var(--ink-faint)">${p.totalColorways} colourways · QC'd before dispatch</span>
           </div>
           <p id="pdp-price" class="text-3xl font-bold mb-1">${fromLabel ? "From " + fromLabel : "Message for price"}</p>
           <p class="text-sm mb-6" style="color:var(--ink-faint)">Selected: <span id="pdp-selected" style="color:var(--ink)">choose a colourway below</span></p>
@@ -1105,6 +1090,10 @@
             <button id="pdp-fav" class="btn btn-ghost !px-4 shrink-0 ${Favs.has(p.id) ? "!text-[#f8717a] !border-[#f8717a]" : ""}" aria-label="${Favs.has(p.id) ? "Remove from saved" : "Save for later"}" aria-pressed="${Favs.has(p.id)}">
               <span class="w-5 h-5 block" ${Favs.has(p.id) ? 'style="fill:currentColor"' : ""}>${ICON.heart}</span>
               <span class="sm:hidden">Save</span>
+            </button>
+            <button id="pdp-share" class="btn btn-ghost !px-4 shrink-0" aria-label="Share this item">
+              <span class="w-5 h-5 block">${ICON.share}</span>
+              <span class="sm:hidden">Share</span>
             </button>
           </div>
           <p class="text-xs mb-8 flex items-center gap-1.5" style="color:var(--ink-faint)"><span class="w-3.5 h-3.5 block" style="color:var(--brand)">${ICON.badgeCheck}</span>Pick a colourway, then ordering opens a chat with ${esc(v.name)} pre-filled with that colourway.</p>
@@ -1126,31 +1115,7 @@
             </details>
           </div>
         </div>
-      </div>
-
-      <section class="mt-16 pt-10 border-t hairline">
-        <h2 class="section-title text-2xl sm:text-3xl mb-8">Reviews <span class="text-sm font-normal align-middle ml-2" style="color:var(--ink-faint)">${p.reviews} total</span></h2>
-        <div class="grid lg:grid-cols-[260px_1fr] gap-10">
-          <div>
-            <div class="flex items-end gap-2 mb-5">
-              <span class="text-5xl font-bold" style="font-variant-numeric:tabular-nums">${p.rating.toFixed(1)}</span>
-              <span class="rating mb-2"><span class="star !w-4 !h-4">${ICON.star}</span>out of 5</span>
-            </div>
-            <div class="space-y-2">
-              ${distributionFor(p.rating).map(([stars, pct]) => `
-                <div class="dist-row"><span>${stars} ★</span><span class="dist-track"><span class="dist-fill" style="width:${pct}%"></span></span><span class="text-right">${pct}%</span></div>`).join("")}
-            </div>
-          </div>
-          <div class="grid sm:grid-cols-3 gap-4">
-            ${reviewsFor(p).map((r) => `
-              <figure class="surface-card p-5 flex flex-col gap-3">
-                <span class="inline-flex gap-0.5">${Array.from({ length: r.rating }, () => `<span class="w-3.5 h-3.5 block" style="color:var(--star)">${ICON.star}</span>`).join("")}</span>
-                <blockquote class="text-sm leading-relaxed" style="color:var(--ink)">"${esc(r.text)}"</blockquote>
-                <figcaption class="mt-auto pt-3 border-t hairline flex items-center justify-between gap-2"><span class="text-sm font-semibold">${esc(r.name)}</span><span class="text-xs" style="color:var(--ink-faint)">${esc(r.when)}</span></figcaption>
-              </figure>`).join("")}
-          </div>
-        </div>
-      </section>`;
+      </div>`;
 
     /* Colorway strip + selection */
     const strip = qs("#cw-strip");
@@ -1272,6 +1237,10 @@
               <span class="w-5 h-5 block" ${Favs.has(p.id) ? 'style="fill:currentColor"' : ""}>${ICON.heart}</span>
               <span class="sm:hidden">Save</span>
             </button>
+            <button id="pdp-share" class="btn btn-ghost !px-4 shrink-0" aria-label="Share this item">
+              <span class="w-5 h-5 block">${ICON.share}</span>
+              <span class="sm:hidden">Share</span>
+            </button>
           </div>
           <p class="text-xs mb-8 flex items-center gap-1.5" style="color:var(--ink-faint)"><span class="w-3.5 h-3.5 block" style="color:var(--brand)">${ICON.badgeCheck}</span>Ordering opens a chat with ${esc(v.name)}. They confirm stock, size and payment directly.</p>
 
@@ -1307,7 +1276,7 @@
     const setImg = (i) => {
       curImg = (i + gallery.length) % gallery.length;
       mainImg.src = gallery[curImg];
-      qsa(".qc-thumb", thumbs).forEach((t, idx) => t.classList.toggle("is-active", idx === curImg));
+      if (thumbs && thumbs.isConnected) qsa(".qc-thumb", thumbs).forEach((t, idx) => t.classList.toggle("is-active", idx === curImg));
     };
     if (gallery.length > 1) {
       thumbs.innerHTML = gallery
@@ -1340,7 +1309,14 @@
       const strip = qs("#batch-strip");
       const selectBatch = (i) => {
         const b = p.batches[i];
-        if (b.image) qs("#pdp-image").src = b.image;
+        if (b.image) {
+          const gi = gallery.indexOf(b.image);
+          if (gi >= 0) setImg(gi);
+          else {
+            mainImg.src = b.image;
+            if (thumbs && thumbs.isConnected) qsa(".qc-thumb", thumbs).forEach((t) => t.classList.remove("is-active"));
+          }
+        }
         qs("#pdp-selected-batch").textContent = b.code + (b.onRequest ? " · price on request" : "");
         qs("#pdp-price").textContent = b.price != null ? money(b.price, base) : "Price on request";
         const synth = { name: p.name + " — " + b.code + " batch", price: b.price != null ? b.price : p.price, id: p.id, vendor: p.vendor };
@@ -1387,6 +1363,20 @@
   /* ----------------------------------------------------------
      Boot
   ---------------------------------------------------------- */
+  /* Share current product (native share sheet, else copy link) */
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("#pdp-share");
+    if (!btn) return;
+    const url = location.href;
+    if (navigator.share) {
+      navigator.share({ title: document.title.split(" — ")[0], url }).catch(() => {});
+    } else if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(() => showToast("Link copied")).catch(() => showToast("Couldn't copy link"));
+    } else {
+      showToast(url);
+    }
+  });
+
   document.addEventListener("DOMContentLoaded", () => {
     injectChrome();
     renderFavBadge();

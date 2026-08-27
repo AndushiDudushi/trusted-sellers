@@ -34,7 +34,7 @@ const VENDORS = {
     sales: "8,120",
     baseCurrency: "CNY",
     whatsapp: "8619905978182",
-    discord: "https://discord.gg/momokicks",
+    discord: "https://discord.gg/dcDbp3ENG8",
     yupooShop: "https://momokick.x.yupoo.com",
     description:
       "Momokicks is the shoe wall of Trusted Sellers — Jordans, Air Max, designer grails and more. Buy directly on Weidian, or message the seller on WhatsApp or Discord.",
@@ -59,9 +59,9 @@ const VENDORS = {
     rating: 4.8,
     sales: "15,860",
     baseCurrency: "CNY",
-    whatsapp: null,
+    whatsapp: "8618759063105",
     discord: null,
-    yupooShop: null,
+    yupooShop: "https://helloworld520.x.yupoo.com/albums",
     description:
       "PJS specialises in budget-friendly Nike (and a little Under Armour) at sharp prices, every listing with a direct Weidian buy link.",
     stats: [
@@ -86,8 +86,8 @@ const VENDORS = {
     rating: 4.9,
     sales: "6,540",
     baseCurrency: "USD",
-    whatsapp: "10000000003",
-    discord: "https://discord.gg/your-reviving-invite",
+    whatsapp: null,
+    discord: null,
     yupooShop: null,
     description:
       "Reviving Fashion hunts racks so you don't have to. Vintage tees, heavyweight crewnecks, workwear jackets and denim, all washed, measured flat, and photographed honestly.",
@@ -113,8 +113,8 @@ const VENDORS = {
     rating: 4.7,
     sales: "11,230",
     baseCurrency: "USD",
-    whatsapp: "10000000004",
-    discord: "https://discord.gg/your-monstertech-invite",
+    whatsapp: null,
+    discord: null,
     yupooShop: null,
     description:
       "MonsterTechnology stocks the gear that survives its own test bench. Headphones, keyboards, mice and desk audio, every unit powered on and burn-tested before it goes in the box.",
@@ -326,25 +326,5 @@ const PRODUCTS = MOMOKICKS_PRODUCTS.concat(
 
 const QC_CONFIG = { endpoint: null, apiKey: null };
 
-const REVIEWS_WEAR = [
-  { name: "Marek T.", rating: 5, when: "June 2026", text: "Exactly as photographed. The QC photos matched what arrived to the centimeter." },
-  { name: "Aisha B.", rating: 5, when: "May 2026", text: "Seller sent QC photos before shipping and answered sizing questions within the hour." },
-  { name: "Jonas W.", rating: 4, when: "June 2026", text: "Quality is great for the price. Runs slightly roomy, so check the size notes before ordering." },
-  { name: "Priya N.", rating: 5, when: "April 2026", text: "Arrived double-boxed in four days. Condition was better than expected." },
-  { name: "Tomás R.", rating: 4, when: "May 2026", text: "Color is a touch warmer in person than on the photos. Still very happy with it." },
-  { name: "Elif D.", rating: 5, when: "July 2026", text: "Second order from this seller. Consistent quality both times, and tracking updated daily." },
-];
-const REVIEWS_GEAR = [
-  { name: "Viktor S.", rating: 5, when: "June 2026", text: "Unit arrived firmware-updated and sealed after testing, exactly as promised." },
-  { name: "Hana M.", rating: 5, when: "May 2026", text: "Works flawlessly. You can tell it was actually bench-tested." },
-  { name: "Diego F.", rating: 4, when: "June 2026", text: "Solid build and fast shipping. Setup took five minutes." },
-  { name: "Ingrid K.", rating: 5, when: "April 2026", text: "Serial checked out with the manufacturer and the warranty registered without issues." },
-  { name: "Sam O.", rating: 4, when: "July 2026", text: "Does what it says. Packaging was heavily padded, no rattles, no scuffs." },
-  { name: "Mateo L.", rating: 5, when: "May 2026", text: "Asked two questions before buying and got detailed answers with photos both times." },
-];
-
-const TESTIMONIALS = [
-  { quote: "Bought a Jordan from Momokicks straight on Weidian, and the Yupoo album showed every colour first. QC photos landed before it shipped.", name: "Dario M.", rating: 5, meta: "Verified buyer · 14 orders" },
-  { quote: "PJS Nike prices are unreal and the Weidian checkout was one tap. Pair arrived exactly like the photo.", name: "Lena K.", rating: 5, meta: "Verified buyer · 6 orders" },
-  { quote: "Messaged Momokicks on Discord about sizing, got an answer in minutes, then ordered. Already back for more.", name: "Yusuf A.", rating: 5, meta: "Verified buyer · 9 orders" },
-];
+/* Reviews/testimonials intentionally omitted — no fabricated buyer feedback.
+   Add real reviews here once you have them. */

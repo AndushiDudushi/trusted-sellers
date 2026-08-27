@@ -1205,3 +1205,62 @@ select:focus-visible {
 .cat-circle.is-soon .ring { opacity: 0.82; }
 .cat-circle.is-soon .ring img { filter: grayscale(0.35); }
 .seller-card.is-soon .seller-avatar img { filter: grayscale(0.3); opacity: 0.9; }
+
+/* ============================================================
+   How-to-buy page
+   ============================================================ */
+.howto-steps { position: relative; display: flex; flex-direction: column; gap: 0; }
+.howto-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: 1rem;
+  padding: 0 0 2rem;
+}
+.howto-step:last-child { padding-bottom: 0; }
+/* connector line */
+.howto-step::before {
+  content: "";
+  position: absolute;
+  left: 1.5rem;
+  top: 3rem;
+  bottom: 0;
+  width: 2px;
+  background: var(--line);
+  transform: translateX(-1px);
+}
+.howto-step:last-child::before { display: none; }
+.howto-num {
+  position: relative;
+  z-index: 1;
+  width: 3rem;
+  height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 1px solid var(--line-strong, rgba(255,255,255,0.12));
+  border-radius: 999px;
+  font-variant-numeric: tabular-nums;
+}
+.howto-step h3 { font-size: 1.05rem; font-weight: 700; margin: 0.5rem 0 0.35rem; }
+.howto-step p { font-size: 0.9rem; line-height: 1.6; color: var(--ink-muted); max-width: 60ch; }
+.howto-chip {
+  display: inline-flex; align-items: center;
+  padding: 0.05rem 0.45rem; margin: 0 0.1rem;
+  font-size: 0.82rem; font-weight: 600; color: var(--ink);
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: 0.4rem; white-space: nowrap;
+}
+.howto-tag {
+  display: inline-flex; align-items: center;
+  padding: 0.4rem 0.85rem;
+  font-size: 0.85rem; font-weight: 600; color: var(--ink);
+  background: color-mix(in srgb, var(--brand) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--brand) 32%, transparent);
+  border-radius: 999px;
+}
+.howto-tag a { color: inherit; }
