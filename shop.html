@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse — Trusted Sellers</title>
+  <meta name="description" content="Every sneaker and streetwear piece from Momokicks &amp; PJS in one place. Filter by brand, pick your batch, buy on Weidian." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Trusted Sellers" />
+    <meta property="og:title" content="Browse — Trusted Sellers" />
+    <meta property="og:description" content="Every sneaker and streetwear piece from Momokicks &amp; PJS in one place. Filter by brand, pick your batch, buy on Weidian." />
+    <meta property="og:image" content="assets/img/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Browse — Trusted Sellers" />
+    <meta name="twitter:description" content="Every sneaker and streetwear piece from Momokicks &amp; PJS in one place. Filter by brand, pick your batch, buy on Weidian." />
+    <meta name="twitter:image" content="assets/img/og.jpg" />
+    <meta name="theme-color" content="#0e0e0f" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f8df9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z'/%3E%3Cpath d='m9 12 2 2 4-4'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Geist", "ui-sans-serif", "system-ui"],
+            display: ["Playfair Display", "Georgia", "serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css?v=11" />
+</head>
+<body data-page="shop">
+
+  <main class="relative z-[2]">
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-2">
+      <h1 class="section-title text-3xl sm:text-4xl mb-1">Browse <em>everything</em></h1>
+      <p id="shop-query-note" class="text-sm mb-7" style="color:var(--ink-muted)">Every product from all four sellers.</p>
+
+      <div class="flex flex-col gap-3 mb-8">
+        <div id="cat-filters" class="cat-row !gap-2 !p-0 !pb-1" role="group" aria-label="Filter by category"></div>
+        <div id="subcat-filters" class="cat-row !gap-2 !p-0 !pb-1 hidden" role="group" aria-label="Filter by subcategory"></div>
+        <div id="vendor-filters" class="flex flex-wrap gap-2" role="group" aria-label="Filter by seller"></div>
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div id="tag-filters" class="flex flex-wrap gap-2" role="group" aria-label="Filter by tag">
+            <button class="filter-pill is-active" data-tag="all">All</button>
+            <button class="filter-pill" data-tag="New">New</button>
+            <button class="filter-pill" data-tag="Hot">Hot</button>
+            <button class="filter-pill" data-tag="Bestseller">Bestsellers</button>
+          </div>
+          <div class="flex items-center gap-4">
+            <span id="shop-count" class="text-xs whitespace-nowrap" style="color:var(--ink-faint)"></span>
+            <label for="sort-select" class="sr-only">Sort products</label>
+            <select id="sort-select" class="field-input !min-h-[40px] !w-auto !rounded-full text-sm cursor-pointer">
+              <option value="featured">Sort: Featured</option>
+              <option value="rating">Top Rated</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="shop-grid"></div>
+    </section>
+
+  </main>
+
+  <script src="assets/js/catalog-data.js?v=11"></script>
+  <script src="assets/js/data.js?v=11"></script>
+  <script src="assets/js/app.js?v=11"></script>
+</body>
+</html>

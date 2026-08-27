@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seller — Trusted Sellers</title>
+  <meta name="description" content="A verified seller on Trusted Sellers — full catalog, real prices and Weidian links." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Trusted Sellers" />
+    <meta property="og:title" content="Seller — Trusted Sellers" />
+    <meta property="og:description" content="A verified seller on Trusted Sellers — full catalog, real prices and Weidian links." />
+    <meta property="og:image" content="assets/img/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Seller — Trusted Sellers" />
+    <meta name="twitter:description" content="A verified seller on Trusted Sellers — full catalog, real prices and Weidian links." />
+    <meta name="twitter:image" content="assets/img/og.jpg" />
+    <meta name="theme-color" content="#0e0e0f" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f8df9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z'/%3E%3Cpath d='m9 12 2 2 4-4'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Geist", "ui-sans-serif", "system-ui"],
+            display: ["Playfair Display", "Georgia", "serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css?v=11" />
+</head>
+<body data-page="vendor">
+
+  <main class="relative z-[2]">
+
+    <!-- Hero rendered by app.js with the seller's own accent -->
+    <section id="vendor-hero"></section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-4">
+      <h2 id="vendor-grid-title" class="section-title text-2xl sm:text-3xl mb-6"></h2>
+      <div id="vendor-grid"></div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-4">
+      <h2 class="section-title text-2xl sm:text-3xl mb-6">More <em>Sellers</em></h2>
+      <div id="other-sellers" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+
+  </main>
+
+  <script src="assets/js/catalog-data.js?v=11"></script>
+  <script src="assets/js/data.js?v=11"></script>
+  <script src="assets/js/app.js?v=11"></script>
+</body>
+</html>

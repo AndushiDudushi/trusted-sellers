@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "trusted-sellers",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/Users/andikurteshi/second_website/serve.py"],
+      "port": 8765
+    }
+  ]
+}

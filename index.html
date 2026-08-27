@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trusted Sellers — Sneakers, Jordans &amp; grails</title>
+  <meta name="description" content="Browse 190+ QC-checked sneakers and streetwear from Momokicks and PJS — Jordans, Air Max, Dunks, Dior and more. Pick your batch, see real prices, and buy on Weidian." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Trusted Sellers" />
+    <meta property="og:title" content="Trusted Sellers — Sneakers, Jordans &amp; grails" />
+    <meta property="og:description" content="Browse 190+ QC-checked sneakers and streetwear from Momokicks and PJS — Jordans, Air Max, Dunks, Dior and more. Pick your batch, see real prices, and buy on Weidian." />
+    <meta property="og:image" content="assets/img/og.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Trusted Sellers — Sneakers, Jordans &amp; grails" />
+    <meta name="twitter:description" content="Browse 190+ QC-checked sneakers and streetwear from Momokicks and PJS — Jordans, Air Max, Dunks, Dior and more. Pick your batch, see real prices, and buy on Weidian." />
+    <meta name="twitter:image" content="assets/img/og.jpg" />
+    <meta name="theme-color" content="#0e0e0f" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234f8df9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z'/%3E%3Cpath d='m9 12 2 2 4-4'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Geist", "ui-sans-serif", "system-ui"],
+            display: ["Playfair Display", "Georgia", "serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="stylesheet" href="assets/css/styles.css?v=11" />
+</head>
+<body data-page="home">
+
+  <main class="relative z-[2]">
+
+    <!-- ============ SEARCH HERO ============ -->
+    <section class="border-b hairline">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-3">
+        <form id="hero-search-form" class="search-bar search-bar--hero max-w-3xl relative" role="search">
+          <span class="w-5 h-5 block shrink-0" style="color:var(--ink-faint)">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          </span>
+          <label for="hero-search-input" class="sr-only">Search products and sellers</label>
+          <input id="hero-search-input" type="text" placeholder="Enter product name…" autocomplete="off" />
+          <button type="button" class="w-10 h-10 -mr-2 flex items-center justify-center shrink-0 cursor-pointer transition-colors duration-200 hover:text-white" style="color:var(--ink-faint)" aria-label="Search by image (coming soon)" title="Search by image, coming soon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+          </button>
+          <div id="search-pop" class="search-pop" role="listbox" aria-label="Search results"></div>
+        </form>
+
+        <!-- Sellers (small circles) -->
+        <div id="seller-row" class="cat-row mt-7" aria-label="Shop by seller"></div>
+
+        <!-- Categories under the sellers -->
+        <div id="cat-row" class="cat-row border-t hairline pt-4" aria-label="Shop by category"></div>
+      </div>
+    </section>
+
+    <!-- ============ TRENDING (tabbed grid) ============ -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-2">
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <h2 class="section-title text-3xl sm:text-4xl">Trending <em>today</em></h2>
+        <div id="grid-tabs" class="tab-row" role="tablist" aria-label="Trending filter">
+          <button class="tab-btn is-active" data-tab="Popular" role="tab" aria-selected="true">Popular</button>
+          <button class="tab-btn" data-tab="New" role="tab" aria-selected="false">New</button>
+          <button class="tab-btn" data-tab="Hot" role="tab" aria-selected="false">Hot</button>
+        </div>
+      </div>
+      <div id="tab-grid"></div>
+      <div class="mt-8 text-center">
+        <a href="shop.html" class="btn btn-ghost">Browse all products</a>
+      </div>
+    </section>
+
+    <!-- ============ NEW THIS WEEK (scroll row) ============ -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-2">
+      <div class="flex items-end justify-between gap-4 mb-6">
+        <h2 class="section-title text-3xl sm:text-4xl reveal">New this <em>week</em></h2>
+        <a href="shop.html?tag=New" class="link-line text-sm font-medium reveal" style="color:var(--ink-muted)">View all</a>
+      </div>
+      <div id="new-row" class="scroll-row"></div>
+    </section>
+
+    <!-- ============ TRENDING SELLERS ============ -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-2">
+      <div class="flex items-end justify-between gap-4 mb-6">
+        <h2 class="section-title text-3xl sm:text-4xl reveal">Trending <em>sellers</em></h2>
+      </div>
+      <div id="trending-sellers" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+    </section>
+
+  </main>
+
+  <script src="assets/js/catalog-data.js?v=11"></script>
+  <script src="assets/js/data.js?v=11"></script>
+  <script src="assets/js/app.js?v=11"></script>
+</body>
+</html>
