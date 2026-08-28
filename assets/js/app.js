@@ -225,6 +225,11 @@
       </div>`;
     document.body.prepend(header);
 
+    /* Header gains a solid glass + hairline once the page scrolls */
+    const onScroll = () => header.classList.toggle("is-stuck", window.scrollY > 12);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
     /* Footer */
     const footer = document.createElement("footer");
     footer.className = "relative z-[2] border-t hairline mt-20";
@@ -444,13 +449,13 @@
             ${chip}
             <img src="${attr(p.image)}" alt="${attr(p.name)}" loading="lazy" />
           </div>
-          <div class="pt-2.5 px-0.5">
-            <h3 class="text-[13px] font-medium leading-snug truncate">${esc(p.name)}</h3>
-            <div class="flex items-center justify-between gap-2 mt-1">
-              <p class="text-sm font-bold">${priceLabel}</p>
+          <div class="pt-3 px-0.5">
+            <p class="vendor-chip w-full mb-1"><span class="glyph">${ICON.shop}</span><span class="truncate">${esc(v.name)}</span></p>
+            <h3 class="text-[13px] font-medium leading-snug truncate text-[color:var(--ink)]">${esc(p.name)}</h3>
+            <div class="flex items-baseline justify-between gap-2 mt-1.5">
+              <p class="price text-[15px] font-semibold tracking-tight">${priceLabel}</p>
               ${metaRight}
             </div>
-            <p class="vendor-chip mt-1 w-full"><span class="glyph">${ICON.shop}</span><span class="truncate">${esc(v.name)}</span></p>
           </div>
         </a>
         <button class="fav-btn ${Favs.has(p.id) ? "is-active" : ""}" data-fav="${p.id}" aria-label="${Favs.has(p.id) ? "Remove" : "Save"} ${attr(p.name)}" aria-pressed="${Favs.has(p.id)}">
@@ -1107,7 +1112,7 @@
           <div class="flex items-center gap-3 mb-5">
             <span class="text-sm" style="color:var(--ink-faint)">${p.totalColorways} colourways · QC'd before dispatch</span>
           </div>
-          <p id="pdp-price" class="text-3xl font-bold mb-1">${fromLabel ? "From " + fromLabel : "Message for price"}</p>
+          <p id="pdp-price" class="price text-[2rem] font-semibold tracking-tight mb-1">${fromLabel ? "From " + fromLabel : "Message for price"}</p>
           <p class="text-sm mb-6" style="color:var(--ink-faint)">Selected: <span id="pdp-selected" style="color:var(--ink)">choose a colourway below</span></p>
           <p class="text-[15px] leading-relaxed mb-6 max-w-[60ch]" style="color:var(--ink-muted)">${esc(p.description)}</p>
 
@@ -1247,7 +1252,7 @@
           <div class="flex items-center gap-3 mb-5">
             <span class="text-sm" style="color:var(--ink-faint)">${esc(p.material)}</span>
           </div>
-          <p id="pdp-price" class="text-3xl font-bold ${p.hasBatches ? "mb-1" : "mb-6"}">${p.price != null ? (p.priceFrom ? "From " : "") + money(p.price, baseCurOf(p)) : "Message for price"}</p>
+          <p id="pdp-price" class="price text-[2rem] font-semibold tracking-tight ${p.hasBatches ? "mb-1" : "mb-6"}">${p.price != null ? (p.priceFrom ? "From " : "") + money(p.price, baseCurOf(p)) : "Message for price"}</p>
           ${
             p.hasBatches
               ? `<p class="text-sm mb-4" style="color:var(--ink-faint)">Batch: <span id="pdp-selected-batch" style="color:var(--ink)">choose below</span></p>
