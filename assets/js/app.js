@@ -43,6 +43,8 @@
     camera: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>',
     close: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
     share: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>',
+    chevronLeft: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>',
+    chevronRight: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>',
     arrowRight: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
     arrowUpRight: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>',
     check: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>',
@@ -504,6 +506,28 @@
         }
       });
     });
+  }
+
+  /* Arrows for a horizontally-scrolling thumbnail strip */
+  function wireThumbScroller(wrap) {
+    if (!wrap) return;
+    const strip = qs(".qc-thumbs", wrap);
+    const prev = qs(".thumb-prev", wrap);
+    const next = qs(".thumb-next", wrap);
+    if (!strip || !prev || !next) return;
+    const update = () => {
+      const overflow = strip.scrollWidth - strip.clientWidth > 4;
+      prev.hidden = !overflow || strip.scrollLeft <= 2;
+      next.hidden = !overflow || strip.scrollLeft >= strip.scrollWidth - strip.clientWidth - 2;
+    };
+    const step = () => Math.max(160, strip.clientWidth * 0.7);
+    prev.addEventListener("click", () => strip.scrollBy({ left: -step(), behavior: "smooth" }));
+    next.addEventListener("click", () => strip.scrollBy({ left: step(), behavior: "smooth" }));
+    strip.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    qsa("img", strip).forEach((img) => img.addEventListener("load", update, { once: true }));
+    requestAnimationFrame(update);
+    setTimeout(update, 350);
   }
 
   /* ----------------------------------------------------------
@@ -1193,13 +1217,17 @@
         <span style="color:var(--ink-muted)">${esc(p.name)}</span>
       </nav>
       <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
-        <div>
+        <div class="min-w-0">
           <div id="pdp-media" class="product-media !rounded-2xl !aspect-square cursor-zoom-in" style="--accent:${v.accent}">
             ${p.batch || p.tag ? `<span class="tag-pill">${esc(p.batch || p.tag)}</span>` : ""}
             <img id="pdp-image" src="${attr(p.image)}" alt="${attr(p.name)}" />
             <span class="media-zoom"><span class="w-4 h-4 block">${ICON.gallery}</span>Tap to zoom</span>
           </div>
-          <div id="pdp-thumbs" class="qc-thumbs mt-3"></div>
+          <div class="thumb-scroller mt-3">
+            <button type="button" class="thumb-nav thumb-prev" aria-label="Previous photos" hidden>${ICON.chevronLeft || "‹"}</button>
+            <div id="pdp-thumbs" class="qc-thumbs"></div>
+            <button type="button" class="thumb-nav thumb-next" aria-label="More photos" hidden>${ICON.chevronRight || "›"}</button>
+          </div>
           ${
             p.yupoo
               ? `<a href="${attr(p.yupoo)}" target="_blank" rel="noopener" class="mt-3 surface-card p-4 flex items-center justify-between gap-3 transition-colors duration-200 hover:bg-[#232326]">
@@ -1290,8 +1318,10 @@
         const b = e.target.closest("[data-g]");
         if (b) setImg(Number(b.dataset.g));
       });
+      wireThumbScroller(thumbs.closest(".thumb-scroller"));
     } else {
-      thumbs.remove();
+      const sc = thumbs.closest(".thumb-scroller");
+      (sc || thumbs).remove();
     }
     qs("#pdp-media").addEventListener("click", () => Lightbox.open(gallery, curImg));
 

@@ -1264,3 +1264,33 @@ select:focus-visible {
   border-radius: 999px;
 }
 .howto-tag a { color: inherit; }
+
+/* ============================================================
+   Thumbnail strip scroll arrows
+   ============================================================ */
+.thumb-scroller { position: relative; min-width: 0; }
+.thumb-scroller .qc-thumbs { min-width: 0; max-width: 100%; }
+.thumb-nav {
+  position: absolute;
+  top: calc(50% - 0.25rem);
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink);
+  background: rgba(14, 14, 15, 0.72);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: background 140ms var(--ease), transform 120ms var(--ease), opacity 140ms var(--ease);
+}
+.thumb-nav svg { width: 16px; height: 16px; }
+.thumb-nav:hover { background: rgba(34, 34, 38, 0.92); }
+.thumb-nav:active { transform: translateY(-50%) scale(0.9); }
+.thumb-nav[hidden] { display: none; }
+.thumb-prev { left: -6px; }
+.thumb-next { right: -6px; }
