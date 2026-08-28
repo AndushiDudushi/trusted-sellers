@@ -938,6 +938,10 @@
       parts.push(
         `<a id="ord-wd" href="${attr(wd)}" target="_blank" rel="noopener" class="btn btn-weidian flex-1">${ICON.cart}<span>Buy on Weidian</span></a>`
       );
+    else if (vendor.weidianShop)
+      parts.push(
+        `<a id="ord-wd" href="${attr(vendor.weidianShop)}" target="_blank" rel="noopener" class="btn btn-weidian flex-1">${ICON.cart}<span>Shop on Weidian</span></a>`
+      );
     if (wa)
       parts.push(
         `<a id="ord-wa" href="${wa}" target="_blank" rel="noopener" class="btn btn-whatsapp flex-1">${ICON.whatsapp}<span>${wd ? "Ask on WhatsApp" : "Order via WhatsApp"}</span></a>`

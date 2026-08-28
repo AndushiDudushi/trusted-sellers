@@ -3,8 +3,9 @@
    Momokicks & PJS are built from their real spreadsheets
    (see assets/js/catalog-data.js -> MOMO_RAW / PJS_RAW), which
    carry real prices, Weidian buy links, Yupoo links and images.
-   Reviving Fashion & MonsterTechnology remain demo until their
-   real catalogs are added.
+   Bagoasis (bags) is built from its Yupoo albums; MonsterTechnology
+   (tech) from its Weidian shop. Reviving Fashion remains a coming-soon
+   placeholder until its real catalog is added.
    ============================================================ */
 
 const ORDER = {
@@ -72,6 +73,30 @@ const VENDORS = {
     avatar: "assets/img/pjs/pjs-7820293953.jpg",
     hero: "assets/img/pjs/pjs-7820293953.jpg",
   },
+  bagoasis: {
+    slug: "bagoasis",
+    name: "Bagoasis",
+    tagline: "Designer bags — Goyard, LV, Hermès and more.",
+    category: "Bags",
+    accent: "#C084FC",
+    monogram: "B",
+    founded: "Selling since 2021",
+    verified: true,
+    baseCurrency: "CNY",
+    whatsapp: null,
+    discord: null,
+    yupooShop: "https://zzxdk.x.yupoo.com/",
+    weidianShop: "https://weidian.com/?userid=1834995463&spider_token=937e",
+    description:
+      "Bagoasis is the bag wall of Trusted Sellers — Goyard, LV, Hermès, Chanel, Dior, Gucci, YSL, Balenciaga and more, every piece photographed in-hand. Browse the full album on Yupoo, then order on the Bagoasis Weidian shop.",
+    stats: [
+      ["10+", "Brands"],
+      ["Weidian", "Shop"],
+      ["Yupoo", "Full albums"],
+    ],
+    avatar: "assets/img/bago/252015033/1.jpg",
+    hero: "assets/img/bago/252015033/1.jpg",
+  },
   reviving: {
     slug: "reviving",
     name: "Reviving Fashion",
@@ -102,35 +127,34 @@ const VENDORS = {
   monstertech: {
     slug: "monstertech",
     name: "MonsterTechnology",
-    tagline: "Audio, peripherals and setups. Tested before it ships.",
+    tagline: "Apple, audio and gadgets — best-version tech, shipped from Shenzhen.",
     category: "Tech",
     accent: "#8B5CF6",
     monogram: "T",
-    founded: "Joining soon",
+    founded: "Ships from Shenzhen",
     verified: true,
-    comingSoon: true,
-    followers: "18.7k",
-    rating: 4.7,
-    sales: "11,230",
-    baseCurrency: "USD",
+    baseCurrency: "CNY",
     whatsapp: null,
     discord: null,
     yupooShop: null,
+    weidianShop: "https://weidian.com/?userid=1633552672&spider_token=9bb1",
     description:
-      "MonsterTechnology stocks the gear that survives its own test bench. Headphones, keyboards, mice and desk audio, every unit powered on and burn-tested before it goes in the box.",
+      "MonsterTechnology focuses on electronic products and only the best-version quality — Apple accessories, Beats, JBL and Harman Kardon audio, Dyson styling tools and power banks. Buy directly on the Weidian shop.",
     stats: [
-      ["11,230", "Orders shipped"],
-      ["4.7★", "Average rating"],
-      ["100%", "Bench-tested"],
+      ["10+", "Products"],
+      ["Weidian", "Direct checkout"],
+      ["Best", "version quality"],
     ],
-    avatar: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=400&auto=format&fit=crop",
-    hero: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=1600&auto=format&fit=crop",
+    avatar: "assets/img/monster/airpodsmax.jpg",
+    hero: "assets/img/monster/airpodsmax.jpg",
   },
 };
 
 /* Top-level categories (home circles). Empty ones auto-hide. */
 const CATEGORIES = [
   { slug: "Shoes", label: "Sneakers", blurb: "Jordans, Air Max, designer grails and more.", image: "assets/img/momo/momo-7224182542.jpg" },
+  { slug: "Bags", label: "Bags", blurb: "Designer bags — Goyard, LV, Hermès, Chanel and more.", image: "assets/img/bago/252015033/1.jpg" },
+  { slug: "Tech", label: "Tech", blurb: "Apple, audio and gadgets — best-version tech.", image: "assets/img/monster/airpodsmax.jpg" },
   { slug: "Boots", label: "Boots", blurb: "Leather boots built for the long haul.", image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?q=80&w=600&auto=format&fit=crop" },
   { slug: "Tops", label: "Tops", blurb: "Hoodies, crewnecks and tees, measured flat.", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=600&auto=format&fit=crop" },
   { slug: "Outerwear", label: "Outerwear", blurb: "Jackets and coats, graded and honest.", image: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?q=80&w=600&auto=format&fit=crop" },
@@ -213,8 +237,34 @@ function _mkPjs(r, idx) {
   };
 }
 
+/* Bagoasis — designer bags. One product per Yupoo album (r.t = bag type). */
+function _mkBago(r, idx) {
+  const h = _h(r.id);
+  return {
+    id: r.id,
+    vendor: "bagoasis",
+    category: "Bags",
+    subcategory: r.t,
+    name: r.n,
+    price: r.p != null ? r.p : null, // ¥ base (CNY), from the Yupoo album title
+    weidian: null, // no per-item Weidian link; vendor.weidianShop is used instead
+    yupoo: r.y || null,
+    tag: idx < 6 ? "New" : idx < 12 ? "Hot" : null,
+    rating: +(4.6 + (h % 4) / 10).toFixed(1),
+    reviews: 20 + (h % 180),
+    material: r.t,
+    description:
+      r.n +
+      " from Bagoasis. Photographed in-hand — swipe the gallery, or see every angle on the Yupoo album. Order by browsing the Bagoasis Weidian shop or messaging the seller.",
+    details: ["QC photos before shipping", "More angles on the Yupoo album", "Ships tracked", "Message to confirm stock & colour"],
+    image: r.im,
+    gallery: (typeof BAGO_GALLERIES !== "undefined" && BAGO_GALLERIES[r.id]) || [r.im],
+  };
+}
+
 const MOMOKICKS_PRODUCTS = (typeof MOMO_RAW !== "undefined" ? MOMO_RAW : []).map(_mkMomo);
 const PJS_PRODUCTS = (typeof PJS_RAW !== "undefined" ? PJS_RAW : []).map(_mkPjs);
+const BAGOASIS_PRODUCTS = (typeof BAGO_RAW !== "undefined" ? BAGO_RAW : []).map(_mkBago);
 
 /* Demo products for the remaining two sellers (prices in USD). */
 const OTHER_PRODUCTS = [
@@ -267,52 +317,74 @@ const OTHER_PRODUCTS = [
     image: "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?q=80&w=800&auto=format&fit=crop",
   },
   {
-    id: "tech-headphones", vendor: "monstertech", category: "Audio", subcategory: "Headphones",
-    name: "Studio Over-Ear Headphones", price: 219, tag: "Bestseller", rating: 4.8, reviews: 764,
-    material: "40mm drivers · ANC",
-    description: "Flagship over-ears with ANC and a 40-hour battery. Every unit is powered on, firmware-updated and burn-tested before shipping.",
-    details: ["Active noise cancelling", "40h battery, USB-C", "Firmware updated pre-ship", "Bench-tested, sealed after"],
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop",
+    id: "tech-airpodsmax", vendor: "monstertech", category: "Tech", subcategory: "Audio",
+    name: "AirPods Max (Best Version)", price: 630, tag: "Hot", material: "Over-ear · ANC",
+    description: "AirPods Max, best-version build. Focus-on-electronics quality from Monster Technology — buy directly on the Weidian shop.",
+    details: ["Best-version quality", "Direct Weidian checkout", "Ships from Shenzhen", "Message to confirm colour"],
+    image: "assets/img/monster/airpodsmax.jpg",
   },
   {
-    id: "tech-earbuds", vendor: "monstertech", category: "Audio", subcategory: "Earbuds",
-    name: "True Wireless Earbuds Pro", price: 129, tag: "New", rating: 4.7, reviews: 432,
-    material: "ANC · wireless charging",
-    description: "Compact buds with adaptive ANC and a wireless charging case. Serial-verified stock with a full local warranty.",
-    details: ["Adaptive ANC", "8+24h battery", "Wireless charging case", "Serial-verified, 2y warranty"],
-    image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=800&auto=format&fit=crop",
+    id: "tech-dyson", vendor: "monstertech", category: "Tech", subcategory: "Styling",
+    name: "Dyson HS05 Airwrap (Best Version)", price: 600, tag: "Hot", material: "Multi-styler set",
+    description: "Dyson HS05 Airwrap styling set, best-version build with the full attachment set. Buy directly on the Weidian shop.",
+    details: ["Best-version quality", "Full attachment set", "Direct Weidian checkout", "Ships from Shenzhen"],
+    image: "assets/img/monster/dyson.gif",
   },
   {
-    id: "tech-keyboard", vendor: "monstertech", category: "Peripherals", subcategory: "Keyboards",
-    name: "Mechanical Keyboard 75% Hot-Swap", price: 96, tag: "Hot", rating: 4.8, reviews: 601,
-    material: "Gasket mount · hot-swap PCB",
-    description: "A gasket-mounted 75% board with a hot-swap PCB and factory-lubed stabilizers. Test-typed and QC'd per unit.",
-    details: ["Gasket mount, 75% layout", "Hot-swap 3/5-pin PCB", "Factory-lubed stabilizers", "Per-unit typing test"],
-    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=800&auto=format&fit=crop",
+    id: "tech-applepencil", vendor: "monstertech", category: "Tech", subcategory: "Apple",
+    name: "Apple Pencil (Best Version)", price: 398, tag: "New", material: "Stylus · tilt & pressure",
+    description: "Apple Pencil, best-version build. Focus-on-electronics quality from Monster Technology — buy directly on the Weidian shop.",
+    details: ["Best-version quality", "Direct Weidian checkout", "Ships from Shenzhen", "Message to confirm model"],
+    image: "assets/img/monster/applepencil.jpg",
   },
   {
-    id: "tech-mouse", vendor: "monstertech", category: "Peripherals", subcategory: "Mice",
-    name: "Ultralight Gaming Mouse 49g", price: 64, tag: null, rating: 4.7, reviews: 388,
-    material: "49g · 26k sensor",
-    description: "49 grams, a flawless sensor, and a solid shell with no honeycomb. Click-tested and sensor-verified before boxing.",
-    details: ["49g solid shell", "26,000 DPI sensor", "Click + sensor tested", "PTFE skates pre-fitted"],
-    image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?q=80&w=800&auto=format&fit=crop",
+    id: "tech-applewatch", vendor: "monstertech", category: "Tech", subcategory: "Apple",
+    name: "Apple Watch (Best Version)", price: 320, tag: "New", material: "Smartwatch series",
+    description: "Apple Watch series, best-version build. Pick your size and case on the Weidian shop.",
+    details: ["Best-version quality", "Multiple sizes & cases", "Direct Weidian checkout", "Ships from Shenzhen"],
+    image: "assets/img/monster/applewatch.gif",
   },
   {
-    id: "tech-watch", vendor: "monstertech", category: "Watches", subcategory: "Watches",
-    name: "Minimalist Quartz Watch 'Sand'", price: 174, tag: null, rating: 4.6, reviews: 254,
-    material: "Sapphire glass · leather strap",
-    description: "A clean minimalist quartz watch with sapphire glass and a tan leather strap. The movement is tested and timed before shipping.",
-    details: ["Sapphire crystal glass", "Japanese quartz movement", "Genuine leather strap", "Timed & tested pre-ship"],
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop",
+    id: "tech-harmankardon", vendor: "monstertech", category: "Tech", subcategory: "Audio",
+    name: "Harman Kardon Glass Speaker", price: 400, tag: null, material: "Desk speaker",
+    description: "Harman Kardon glass-style desk speaker, best-version build. Buy directly on the Weidian shop.",
+    details: ["Best-version quality", "Direct Weidian checkout", "Ships from Shenzhen", "Message to confirm model"],
+    image: "assets/img/monster/harmankardon.gif",
   },
   {
-    id: "tech-controller", vendor: "monstertech", category: "Peripherals", subcategory: "Controllers",
-    name: "Pro Wireless Controller", price: 79, tag: "Hot", rating: 4.8, reviews: 529,
-    material: "Hall-effect sticks",
-    description: "A pro controller with hall-effect sticks, so it never drifts. Stick-tested on the bench and sealed after inspection.",
-    details: ["Hall-effect thumbsticks", "Zero-drift guarantee", "PC / console / mobile", "Bench stick-test per unit"],
-    image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop",
+    id: "tech-jbl", vendor: "monstertech", category: "Tech", subcategory: "Audio",
+    name: "JBL Audio Speaker", price: 310, tag: null, material: "Portable speaker",
+    description: "JBL-series portable audio, best-version build. Pick your model on the Weidian shop.",
+    details: ["Best-version quality", "Direct Weidian checkout", "Ships from Shenzhen", "Message to confirm model"],
+    image: "assets/img/monster/jbl.gif",
+  },
+  {
+    id: "tech-beats", vendor: "monstertech", category: "Tech", subcategory: "Audio",
+    name: "Beats Bluetooth Earphones", price: 300, tag: "Hot", material: "Wireless earphones",
+    description: "Beats Bluetooth earphones collection, best-version build. Pick your model on the Weidian shop.",
+    details: ["Best-version quality", "Direct Weidian checkout", "Ships from Shenzhen", "Message to confirm model"],
+    image: "assets/img/monster/beats.gif",
+  },
+  {
+    id: "tech-hairdryer", vendor: "monstertech", category: "Tech", subcategory: "Styling",
+    name: "High-Speed Hair Dryer", price: 180, tag: null, material: "Imported motor",
+    description: "High-speed hair dryer with an imported motor. Buy directly on the Weidian shop.",
+    details: ["Imported high-speed motor", "Direct Weidian checkout", "Ships from Shenzhen", "Message to confirm colour"],
+    image: "assets/img/monster/hairdryer.jpg",
+  },
+  {
+    id: "tech-airpods", vendor: "monstertech", category: "Tech", subcategory: "Audio",
+    name: "AirPods (Best Version)", price: 180, tag: "New", material: "Wireless earbuds",
+    description: "AirPods series, best-version build. Pick your model on the Weidian shop.",
+    details: ["Best-version quality", "Direct Weidian checkout", "Ships from Shenzhen", "Message to confirm model"],
+    image: "assets/img/monster/airpods.jpg",
+  },
+  {
+    id: "tech-powerbank", vendor: "monstertech", category: "Tech", subcategory: "Charging",
+    name: "5000mAh Power Bank", price: 140, tag: null, material: "A-grade cell · fireproof casing",
+    description: "5000mAh power bank with an A-grade power cell and a PE fireproof casing. Buy directly on the Weidian shop.",
+    details: ["A-grade power cell", "PE fireproof casing", "Direct Weidian checkout", "Ships from Shenzhen"],
+    image: "assets/img/monster/powerbank.jpg",
   },
 ];
 
@@ -321,6 +393,7 @@ const OTHER_PRODUCTS = [
    is added — this also auto-hides their placeholder categories. */
 const PRODUCTS = MOMOKICKS_PRODUCTS.concat(
   PJS_PRODUCTS,
+  BAGOASIS_PRODUCTS,
   OTHER_PRODUCTS.filter((p) => !(VENDORS[p.vendor] && VENDORS[p.vendor].comingSoon))
 );
 
