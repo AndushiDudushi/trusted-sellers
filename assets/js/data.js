@@ -76,7 +76,7 @@ const VENDORS = {
   bagoasis: {
     slug: "bagoasis",
     name: "Bagoasis",
-    tagline: "Designer bags — Goyard, LV, Hermès and more.",
+    tagline: "Goyard & Louis Vuitton bags, photographed in-hand.",
     category: "Bags",
     accent: "#C084FC",
     monogram: "B",
@@ -88,9 +88,9 @@ const VENDORS = {
     yupooShop: "https://zzxdk.x.yupoo.com/",
     weidianShop: "https://weidian.com/?userid=1834995463&spider_token=937e",
     description:
-      "Bagoasis is the bag wall of Trusted Sellers — Goyard, LV, Hermès, Chanel, Dior, Gucci, YSL, Balenciaga and more, every piece photographed in-hand. Browse the full album on Yupoo, then order on the Bagoasis Weidian shop.",
+      "Bagoasis is the bag wall of Trusted Sellers — Goyard and Louis Vuitton, every piece photographed in-hand. More brands (Hermès, Gucci, Chanel and more) are available on the Yupoo album on request. Order on the Bagoasis Weidian shop.",
     stats: [
-      ["10+", "Brands"],
+      ["181", "Bags"],
       ["Weidian", "Shop"],
       ["Yupoo", "Full albums"],
     ],
@@ -153,7 +153,7 @@ const VENDORS = {
 /* Top-level categories (home circles). Empty ones auto-hide. */
 const CATEGORIES = [
   { slug: "Shoes", label: "Sneakers", blurb: "Jordans, Air Max, designer grails and more.", image: "assets/img/momo/momo-7224182542.jpg" },
-  { slug: "Bags", label: "Bags", blurb: "Designer bags — Goyard, LV, Hermès, Chanel and more.", image: "assets/img/bago/252015033/1.jpg" },
+  { slug: "Bags", label: "Bags", blurb: "Goyard & Louis Vuitton bags, photographed in-hand.", image: "assets/img/bago/252015033/1.jpg" },
   { slug: "Tech", label: "Tech", blurb: "Apple, audio and gadgets — best-version tech.", image: "assets/img/monster/airpodsmax.jpg" },
   { slug: "Boots", label: "Boots", blurb: "Leather boots built for the long haul.", image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?q=80&w=600&auto=format&fit=crop" },
   { slug: "Tops", label: "Tops", blurb: "Hoodies, crewnecks and tees, measured flat.", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=600&auto=format&fit=crop" },
@@ -234,6 +234,7 @@ function _mkPjs(r, idx) {
       " from PJS. Buy directly on Weidian — budget-friendly, QC-checked pairs shipped tracked.",
     details: ["QC-checked pair", "Direct Weidian checkout", "Ships tracked", "Message for size help"],
     image: r.im,
+    gallery: (typeof PJS_GALLERIES !== "undefined" && PJS_GALLERIES[r.id]) || [r.im],
   };
 }
 
