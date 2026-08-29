@@ -155,6 +155,7 @@ const CATEGORIES = [
   { slug: "Shoes", label: "Sneakers", blurb: "Jordans, Air Max, designer grails and more.", image: "assets/img/momo/momo-7224182542.jpg" },
   { slug: "Bags", label: "Bags", blurb: "Goyard & Louis Vuitton bags, photographed in-hand.", image: "assets/img/bago/252015033/1.jpg" },
   { slug: "Tech", label: "Tech", blurb: "Apple, audio and gadgets — best-version tech.", image: "assets/img/monster/airpodsmax.jpg" },
+  { slug: "Clothes", label: "Clothes", blurb: "Nike apparel from PJS — jackets, tees, pulls and bottoms.", image: "assets/img/pjs/gallery/pjs-yp-231415394/1.jpg" },
   { slug: "Boots", label: "Boots", blurb: "Leather boots built for the long haul.", image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?q=80&w=600&auto=format&fit=crop" },
   { slug: "Tops", label: "Tops", blurb: "Hoodies, crewnecks and tees, measured flat.", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=600&auto=format&fit=crop" },
   { slug: "Outerwear", label: "Outerwear", blurb: "Jackets and coats, graded and honest.", image: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?q=80&w=600&auto=format&fit=crop" },
@@ -212,13 +213,24 @@ function _mkMomo(r, idx) {
   };
 }
 
+/* PJS apparel (the Yupoo-only listings) lives under Clothes; the original
+   colourway listings are shoes. Subcategory is derived from the name. */
+function _pjsApparelSub(name) {
+  const n = name.toLowerCase();
+  if (/veste|imperm|therma|aeroloft|jacket|manteau|windrunner|coat|tempo/.test(n)) return "Jackets";
+  if (/pull|sweat|hoodie|hoody|crew/.test(n)) return "Hoodies";
+  if (/tshirt|t-shirt|\btee\b|\bhaut\b|division|drifit|dri-fit|\btop\b|maillot|jersey/.test(n)) return "Tops";
+  if (/\bbas\b|pant|short|jogger|legging|phenom|trail pants/.test(n)) return "Bottoms";
+  return "Apparel";
+}
 function _mkPjs(r, idx) {
   const h = _h(r.id);
+  const apparel = /^pjs-yp-/.test(r.id);
   return {
     id: r.id,
     vendor: "pjs",
-    category: "Shoes",
-    subcategory: r.b,
+    category: apparel ? "Clothes" : "Shoes",
+    subcategory: apparel ? _pjsApparelSub(r.n) : r.b,
     name: r.n,
     price: r.p, // ¥ base (CNY)
     weidian: r.w || null,
@@ -228,11 +240,13 @@ function _mkPjs(r, idx) {
     tag: idx < 4 ? "New" : null,
     rating: +(4.5 + (h % 4) / 10).toFixed(1),
     reviews: 20 + (h % 200),
-    material: r.c ? "Colour: " + r.c : "Nike",
-    description:
-      r.n +
-      " from PJS. Buy directly on Weidian — budget-friendly, QC-checked pairs shipped tracked.",
-    details: ["QC-checked pair", "Direct Weidian checkout", "Ships tracked", "Message for size help"],
+    material: apparel ? "Nike · apparel" : r.c ? "Colour: " + r.c : "Nike",
+    description: apparel
+      ? r.n + " from PJS. QC-checked Nike apparel — see every angle on the Yupoo album, then order on WhatsApp or Weidian."
+      : r.n + " from PJS. Buy directly on Weidian — budget-friendly, QC-checked pairs shipped tracked.",
+    details: apparel
+      ? ["QC photos before shipping", "More angles on the Yupoo album", "Ships tracked", "Message for size help"]
+      : ["QC-checked pair", "Direct Weidian checkout", "Ships tracked", "Message for size help"],
     image: r.im,
     gallery: (typeof PJS_GALLERIES !== "undefined" && PJS_GALLERIES[r.id]) || [r.im],
   };
