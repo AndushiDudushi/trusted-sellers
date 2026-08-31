@@ -735,3 +735,55 @@ p { text-wrap: pretty; }
 .bento > .b-2 { grid-column: span 2; }
 .bento > .b-row-2 { grid-row: span 2; }
 @media (max-width: 900px) { .bento { grid-template-columns: repeat(2, 1fr); } .bento > .b-2 { grid-column: span 2; } }
+
+/* ============================================================
+   Shop pagination
+   ============================================================ */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+.page-btn {
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink-muted);
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: color 160ms var(--ease), border-color 160ms var(--ease), background 160ms var(--ease), transform 140ms var(--spring);
+}
+.page-btn:hover:not(:disabled) { color: var(--ink); border-color: var(--line-strong); background: var(--glass-2); }
+.page-btn:active:not(:disabled) { transform: scale(0.92); }
+.page-btn.is-active {
+  color: #0b0b0d;
+  background: #fff;
+  border-color: #fff;
+  box-shadow: 0 4px 14px -5px rgba(255, 255, 255, 0.4);
+}
+.page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.page-ellipsis { min-width: 1.5rem; text-align: center; color: var(--ink-faint); font-weight: 600; }
+
+/* button press pop (add to cart feedback) */
+.btn.pop { animation: btnPop 320ms var(--spring); }
+@keyframes btnPop { 0% { transform: scale(1); } 40% { transform: scale(0.94); } 100% { transform: scale(1); } }
+
+/* line clamp fallback (Tailwind CDN provides utilities, this is a safety net) */
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* cart drawer body scroll niceties */
+#cart-drawer { box-shadow: var(--sh-lg); }
+
+/* constrain icons inside any pill button (fixes oversized inline SVGs) */
+.btn > svg { width: 18px; height: 18px; flex: 0 0 auto; }

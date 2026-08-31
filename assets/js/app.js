@@ -26,6 +26,10 @@
     const v = Math.round(cny / CUR_RATES[d]);
     return CUR_SYM[d] + v.toLocaleString("en-US");
   }
+  function moneyValue(amount, base = "USD") {
+    const cny = amount * (CUR_RATES[base] || 1);
+    return Math.round(cny / CUR_RATES[displayCur()]);
+  }
 
   const qs = (sel, el = document) => el.querySelector(sel);
   const qsa = (sel, el = document) => [...el.querySelectorAll(sel)];
@@ -55,6 +59,9 @@
     menu: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16"/><path d="M4 16h16"/></svg>',
     gallery: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/></svg>',
     cart: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>',
+    plus: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5v14"/></svg>',
+    minus: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/></svg>',
+    trash: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>',
     whatsapp: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>',
     discord: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9554 2.4189-2.1568 2.4189Z"/></svg>',
   };
@@ -109,6 +116,48 @@
   }
   const Favs = makeStore("trusted_sellers_favs_v1", () => renderFavBadge());
   const Follows = makeStore("trusted_sellers_follows_v1");
+
+  /* Cart: quantity map { id: qty }, capped at 100 items total */
+  const Cart = (() => {
+    const KEY = "trusted_sellers_cart_v1";
+    const MAX = 100;
+    const read = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } };
+    const write = (m) => { localStorage.setItem(KEY, JSON.stringify(m)); renderCartBadge(); };
+    const count = () => Object.values(read()).reduce((a, b) => a + b, 0);
+    return {
+      MAX, read, count,
+      qty(id) { return read()[id] || 0; },
+      isFull() { return count() >= MAX; },
+      add(id, n = 1) {
+        const m = read();
+        const room = MAX - count();
+        if (room <= 0) return 0;
+        const put = Math.min(n, room);
+        m[id] = (m[id] || 0) + put;
+        write(m);
+        return put;
+      },
+      set(id, n) {
+        const m = read();
+        const others = count() - (m[id] || 0);
+        n = Math.max(0, Math.min(n, MAX - others));
+        if (n <= 0) delete m[id]; else m[id] = n;
+        write(m);
+        return m[id] || 0;
+      },
+      remove(id) { const m = read(); delete m[id]; write(m); },
+      clear() { write({}); },
+      entries() { return Object.entries(read()); },
+    };
+  })();
+
+  function renderCartBadge() {
+    qsa("#cart-count").forEach((badge) => {
+      const n = Cart.count();
+      badge.textContent = n;
+      badge.classList.toggle("has-items", n > 0);
+    });
+  }
 
   function renderFavBadge() {
     const badge = qs("#fav-count");
@@ -214,6 +263,10 @@
               <span class="w-5 h-5 block">${ICON.heart}</span>
               <span id="fav-count" class="cart-count" aria-hidden="true">0</span>
             </a>
+            <button id="open-cart" class="relative w-11 h-11 flex items-center justify-center cursor-pointer transition-colors duration-200 hover:text-white" aria-label="Open cart">
+              <span class="w-5 h-5 block">${ICON.cart}</span>
+              <span id="cart-count" class="cart-count" aria-hidden="true">0</span>
+            </button>
             <button id="open-menu" class="md:hidden w-11 h-11 flex items-center justify-center cursor-pointer" aria-label="Open menu" aria-expanded="false">
               <span class="w-5 h-5 block">${ICON.menu}</span>
             </button>
@@ -272,6 +325,135 @@
         </div>
       </div>`;
     document.body.appendChild(footer);
+
+    /* ---------- Cart drawer ---------- */
+    const cartScrim = document.createElement("div");
+    cartScrim.id = "cart-scrim";
+    cartScrim.className = "overlay-scrim";
+    const cartDrawer = document.createElement("aside");
+    cartDrawer.id = "cart-drawer";
+    cartDrawer.className = "cart-drawer";
+    cartDrawer.setAttribute("role", "dialog");
+    cartDrawer.setAttribute("aria-label", "Your cart");
+    cartDrawer.innerHTML = `
+      <div class="flex items-center justify-between px-5 py-4 border-b hairline shrink-0">
+        <h2 class="text-base font-semibold">Your cart <span id="cart-drawer-count" class="mono text-sm font-normal" style="color:var(--ink-faint)"></span></h2>
+        <button id="cart-close" class="w-9 h-9 -mr-1.5 flex items-center justify-center rounded-full transition-colors duration-200 hover:text-white" aria-label="Close cart" style="color:var(--ink-muted)"><span class="w-5 h-5 block">${ICON.close}</span></button>
+      </div>
+      <div id="cart-body" class="flex-1 overflow-y-auto px-5 py-4"></div>
+      <div id="cart-foot" class="border-t hairline px-5 py-4 shrink-0"></div>`;
+    document.body.appendChild(cartScrim);
+    document.body.appendChild(cartDrawer);
+
+    const cartBody = qs("#cart-body", cartDrawer);
+    const cartFoot = qs("#cart-foot", cartDrawer);
+
+    function cartOrderText(vendor, items) {
+      const lines = items.map(({ p, qty }) => `• ${qty}x ${p.name}${p.price != null ? " (" + money(p.price, baseCurOf(p)) + ")" : ""}`).join("\n");
+      return `Hi ${vendor.name}! I'd like to order these from Trusted Sellers:\n\n${lines}\n\nAre they in stock?`;
+    }
+    function cartOrderLink(v, items) {
+      if (v.whatsapp) return { href: `https://wa.me/${v.whatsapp}?text=${encodeURIComponent(cartOrderText(v, items))}`, label: "Order on WhatsApp", cls: "btn-whatsapp", icon: ICON.whatsapp };
+      if (v.discord) return { href: v.discord, label: "Order on Discord", cls: "btn-discord", icon: ICON.discord };
+      if (v.weidianShop) return { href: v.weidianShop, label: "Shop on Weidian", cls: "btn-weidian", icon: ICON.cart };
+      return null;
+    }
+
+    function renderCart() {
+      const rows = Cart.entries().map(([id, qty]) => ({ p: productById(id), qty })).filter((r) => r.p);
+      const total = rows.reduce((a, r) => a + r.qty, 0);
+      qs("#cart-drawer-count").textContent = total ? `${total}/${Cart.MAX}` : "";
+
+      if (!rows.length) {
+        cartBody.innerHTML = `
+          <div class="h-full flex flex-col items-center justify-center text-center py-16" style="color:var(--ink-faint)">
+            <span class="w-10 h-10 block mb-4" style="color:var(--ink-faint)">${ICON.cart}</span>
+            <p class="text-sm font-medium" style="color:var(--ink-muted)">Your cart is empty</p>
+            <p class="text-xs mt-1 max-w-[24ch]">Add items from any product page to build an order for a seller.</p>
+            <a href="shop.html" class="btn btn-ghost mt-6" data-cart-close>Browse products</a>
+          </div>`;
+        cartFoot.style.display = "none";
+        return;
+      }
+      cartFoot.style.display = "";
+
+      /* group by vendor, preserve insertion order */
+      const groups = {};
+      rows.forEach((r) => { (groups[r.p.vendor] = groups[r.p.vendor] || []).push(r); });
+
+      cartBody.innerHTML = Object.entries(groups).map(([slug, items]) => {
+        const v = VENDORS[slug];
+        const link = cartOrderLink(v, items);
+        return `
+        <section class="mb-6 last:mb-0">
+          <div class="flex items-center gap-2 mb-3">
+            <span class="seller-avatar !w-6 !h-6 !rounded-lg"><img src="${attr(v.avatar)}" alt="" /></span>
+            <span class="text-xs font-semibold">${esc(v.name)}</span>
+            <span class="text-xs" style="color:var(--ink-faint)">· ${items.reduce((a, r) => a + r.qty, 0)} item${items.reduce((a, r) => a + r.qty, 0) > 1 ? "s" : ""}</span>
+          </div>
+          <div class="space-y-3">
+            ${items.map(({ p, qty }) => `
+              <div class="flex gap-3">
+                <a href="product.html?id=${attr(p.id)}" class="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-[color:var(--surface-2)]" data-cart-close><img src="${attr(p.image)}" alt="" class="w-full h-full object-cover" /></a>
+                <div class="min-w-0 flex-1">
+                  <a href="product.html?id=${attr(p.id)}" class="text-[13px] font-medium leading-snug line-clamp-2 hover:underline" data-cart-close>${esc(p.name)}</a>
+                  <p class="price text-sm font-semibold mt-0.5">${p.price != null ? money(p.price, baseCurOf(p)) : "Ask price"}</p>
+                </div>
+                <div class="flex flex-col items-end justify-between shrink-0">
+                  <button class="w-7 h-7 flex items-center justify-center rounded-md transition-colors hover:text-white" style="color:var(--ink-faint)" data-cart-remove="${attr(p.id)}" aria-label="Remove ${attr(p.name)}"><span class="w-4 h-4 block">${ICON.trash}</span></button>
+                  <div class="flex items-center gap-2">
+                    <button class="qty-btn !w-7 !h-7" data-cart-dec="${attr(p.id)}" aria-label="Decrease quantity"><span class="w-3.5 h-3.5 block">${ICON.minus}</span></button>
+                    <span class="mono text-sm w-5 text-center" aria-label="Quantity">${qty}</span>
+                    <button class="qty-btn !w-7 !h-7" data-cart-inc="${attr(p.id)}" aria-label="Increase quantity"><span class="w-3.5 h-3.5 block">${ICON.plus}</span></button>
+                  </div>
+                </div>
+              </div>`).join("")}
+          </div>
+          ${link ? `<a href="${attr(link.href)}" ${link.href.startsWith("http") && !link.href.includes("wa.me") ? 'target="_blank" rel="noopener"' : ""} class="btn ${link.cls} w-full mt-3 !min-h-[40px] !text-[13px]">${link.icon}<span>${link.label}</span></a>` : ""}
+        </section>`;
+      }).join("");
+
+      const priced = rows.filter((r) => r.p.price != null);
+      const subtotal = priced.reduce((a, r) => a + moneyValue(r.p.price, baseCurOf(r.p)) * r.qty, 0);
+      const someAsk = rows.some((r) => r.p.price == null);
+      cartFoot.innerHTML = `
+        <div class="flex items-center justify-between mb-1">
+          <span class="text-sm" style="color:var(--ink-muted)">Approx. subtotal${someAsk ? "*" : ""}</span>
+          <span class="price text-lg font-semibold">${CUR_SYM[displayCur()]}${subtotal.toLocaleString("en-US")}</span>
+        </div>
+        <p class="text-[11px] mb-3" style="color:var(--ink-faint)">${someAsk ? "*Some items are priced on request. " : ""}Prices are approximate — the seller confirms the final price and shipping. Order each seller above.</p>
+        <div class="flex gap-2">
+          <button id="cart-copy" class="btn btn-ghost flex-1 !min-h-[42px] !text-[13px]">${ICON.share}<span>Copy list</span></button>
+          <button id="cart-clear" class="btn btn-ghost !min-h-[42px] !text-[13px] !px-4" style="color:var(--ink-muted)">Clear</button>
+        </div>`;
+    }
+
+    let cartOpen = false;
+    function openCart() { renderCart(); cartOpen = true; cartScrim.classList.add("is-open"); cartDrawer.classList.add("is-open"); cartDrawer.setAttribute("aria-hidden", "false"); document.body.style.overflow = "hidden"; }
+    function closeCart() { cartOpen = false; cartScrim.classList.remove("is-open"); cartDrawer.classList.remove("is-open"); cartDrawer.setAttribute("aria-hidden", "true"); document.body.style.overflow = ""; }
+    qs("#open-cart").addEventListener("click", openCart);
+    qs("#cart-close").addEventListener("click", closeCart);
+    cartScrim.addEventListener("click", closeCart);
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && cartOpen) closeCart(); });
+    cartDrawer.addEventListener("click", (e) => {
+      const close = e.target.closest("[data-cart-close]");
+      if (close) { closeCart(); return; }
+      const inc = e.target.closest("[data-cart-inc]");
+      const dec = e.target.closest("[data-cart-dec]");
+      const rm = e.target.closest("[data-cart-remove]");
+      const copy = e.target.closest("#cart-copy");
+      const clear = e.target.closest("#cart-clear");
+      if (inc) { if (!Cart.add(inc.dataset.cartInc, 1)) showToast(`Cart is full (${Cart.MAX} max)`); renderCart(); }
+      else if (dec) { Cart.set(dec.dataset.cartDec, Cart.qty(dec.dataset.cartDec) - 1); renderCart(); }
+      else if (rm) { Cart.remove(rm.dataset.cartRemove); renderCart(); }
+      else if (copy) {
+        const rows = Cart.entries().map(([id, q]) => ({ p: productById(id), qty: q })).filter((r) => r.p);
+        const byV = {}; rows.forEach((r) => (byV[r.p.vendor] = byV[r.p.vendor] || []).push(r));
+        const text = Object.entries(byV).map(([slug, items]) => `${VENDORS[slug].name}:\n` + items.map(({ p, qty }) => `• ${qty}x ${p.name}${p.price != null ? " (" + money(p.price, baseCurOf(p)) + ")" : ""}`).join("\n")).join("\n\n");
+        if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => showToast("Order list copied")).catch(() => showToast("Couldn't copy"));
+      }
+      else if (clear) { Cart.clear(); renderCart(); }
+    });
 
     /* Search overlay (mobile) */
     const search = document.createElement("div");
@@ -802,7 +984,7 @@
       .join("");
 
     /* Other categories strip */
-    qs("#other-cats").innerHTML = CATEGORIES.filter((c) => c.slug !== cat.slug)
+    qs("#other-cats").innerHTML = activeCategories().filter((c) => c.slug !== cat.slug)
       .map(
         (c) => `
       <a href="category.html?cat=${encodeURIComponent(c.slug)}" class="filter-pill">${esc(c.label)}</a>`
@@ -827,7 +1009,10 @@
       fav: param("fav") === "1",
       q: (param("q") || "").toLowerCase(),
       sort: "featured",
+      page: 1,
     };
+    const PER_PAGE = 24;
+    let filtered = [];
 
     if (state.q) {
       const headerInput = qs("#header-search-input");
@@ -882,6 +1067,7 @@
               <a href="shop.html" class="btn btn-primary">Browse Products</a>
             </div>`;
           countEl.textContent = "0 products";
+          qs("#shop-pagination").innerHTML = "";
           return;
         }
       }
@@ -906,18 +1092,57 @@
       if (state.sort === "price-desc") list.sort((a, b) => b.price - a.price);
       if (state.sort === "rating") list.sort((a, b) => b.rating - a.rating);
 
-      grid.innerHTML = list.length
-        ? list.map((p, i) => productCard(p, (i % 6) * 30)).join("")
-        : `<p class="col-span-full text-sm py-20 text-center" style="color:var(--ink-faint)">No products match. Loosen a filter or clear the search.</p>`;
       countEl.textContent = `${list.length} product${list.length === 1 ? "" : "s"}`;
       qsa("[data-vendor]").forEach((b) => b.classList.toggle("is-active", b.dataset.vendor === state.vendor));
       qsa("[data-tag]").forEach((b) => b.classList.toggle("is-active", b.dataset.tag === state.tag));
       qsa("[data-cat]").forEach((b) => b.classList.toggle("is-active", b.dataset.cat === state.cat));
       qsa("[data-sub]").forEach((b) => b.classList.toggle("is-active", b.dataset.sub === state.sub));
+      filtered = list;
+      state.page = 1;
+      renderPage();
+    }
+
+    function renderPage() {
+      const pages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+      state.page = Math.min(Math.max(1, state.page), pages);
+      const start = (state.page - 1) * PER_PAGE;
+      const slice = filtered.slice(start, start + PER_PAGE);
+      grid.innerHTML = slice.length
+        ? slice.map((p, i) => productCard(p, (i % 6) * 30)).join("")
+        : `<p class="col-span-full text-sm py-20 text-center" style="color:var(--ink-faint)">No products match. Loosen a filter or clear the search.</p>`;
       wireCardActions(grid);
       hookImageFallbacks(grid);
       observeReveals(grid);
+      renderPagination(pages);
     }
+
+    function renderPagination(pages) {
+      const pag = qs("#shop-pagination");
+      if (!pag) return;
+      if (pages <= 1) { pag.innerHTML = ""; return; }
+      const cur = state.page;
+      const nums = [];
+      if (pages <= 7) { for (let i = 1; i <= pages; i++) nums.push(i); }
+      else {
+        nums.push(1);
+        if (cur > 3) nums.push("…");
+        for (let i = Math.max(2, cur - 1); i <= Math.min(pages - 1, cur + 1); i++) nums.push(i);
+        if (cur < pages - 2) nums.push("…");
+        nums.push(pages);
+      }
+      pag.innerHTML =
+        `<button class="page-btn" data-page="${cur - 1}" ${cur === 1 ? "disabled" : ""} aria-label="Previous page"><span class="w-4 h-4 block">${ICON.chevronLeft}</span></button>` +
+        nums.map((n) => (n === "…" ? `<span class="page-ellipsis">…</span>` : `<button class="page-btn ${n === cur ? "is-active" : ""}" data-page="${n}" aria-label="Page ${n}"${n === cur ? ' aria-current="page"' : ""}>${n}</button>`)).join("") +
+        `<button class="page-btn" data-page="${cur + 1}" ${cur === pages ? "disabled" : ""} aria-label="Next page"><span class="w-4 h-4 block">${ICON.chevronRight}</span></button>`;
+    }
+
+    qs("#shop-pagination").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-page]");
+      if (!b || b.disabled) return;
+      state.page = Number(b.dataset.page);
+      renderPage();
+      qs("#shop-grid").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
 
     qs("#cat-filters").addEventListener("click", (e) => {
       const b = e.target.closest("[data-cat]");
@@ -1116,6 +1341,7 @@
           <p class="text-sm mb-6" style="color:var(--ink-faint)">Selected: <span id="pdp-selected" style="color:var(--ink)">choose a colourway below</span></p>
           <p class="text-[15px] leading-relaxed mb-6 max-w-[60ch]" style="color:var(--ink-muted)">${esc(p.description)}</p>
 
+          <button class="btn btn-primary w-full mb-3" data-add-cart="${p.id}">${ICON.cart}<span>Add to cart</span></button>
           <div class="flex flex-col sm:flex-row gap-3 mb-3">
             <a id="ord-wa" href="#" target="_blank" rel="noopener" class="btn btn-whatsapp flex-1">${ICON.whatsapp}<span>Order via WhatsApp</span></a>
             ${dc ? `<a id="ord-dc" href="${attr(dc)}" target="_blank" rel="noopener" class="btn btn-discord flex-1">${ICON.discord}<span>Order via Discord</span></a>` : ""}
@@ -1268,6 +1494,7 @@
           }
           <p class="text-[15px] leading-relaxed mb-6 max-w-[60ch]" style="color:var(--ink-muted)">${esc(p.description)}</p>
 
+          <button class="btn btn-primary w-full mb-3" data-add-cart="${p.id}">${ICON.cart}<span>Add to cart</span></button>
           <div class="flex flex-col sm:flex-row gap-3 mb-3">
             ${orderButtonsHTML(v, p)}
             <button id="pdp-fav" class="btn btn-ghost !px-4 shrink-0 ${Favs.has(p.id) ? "!text-[#f8717a] !border-[#f8717a]" : ""}" aria-label="${Favs.has(p.id) ? "Remove from saved" : "Save for later"}" aria-pressed="${Favs.has(p.id)}">
@@ -1402,6 +1629,18 @@
   /* ----------------------------------------------------------
      Boot
   ---------------------------------------------------------- */
+  /* Add to cart (delegated) */
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-add-cart]");
+    if (!btn) return;
+    const p = productById(btn.dataset.addCart);
+    if (!p) return;
+    if (Cart.isFull()) { showToast(`Cart is full (${Cart.MAX} max)`); return; }
+    Cart.add(p.id, 1);
+    showToast(`${p.name} added to cart`);
+    btn.classList.remove("pop"); void btn.offsetWidth; btn.classList.add("pop");
+  });
+
   /* Share current product (native share sheet, else copy link) */
   document.addEventListener("click", (e) => {
     const btn = e.target.closest("#pdp-share");
@@ -1419,6 +1658,7 @@
   document.addEventListener("DOMContentLoaded", () => {
     injectChrome();
     renderFavBadge();
+    renderCartBadge();
     const page = pageName();
     if (page === "home") initHome();
     if (page === "category") initCategory();
