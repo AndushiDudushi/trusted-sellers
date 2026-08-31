@@ -156,13 +156,6 @@ const CATEGORIES = [
   { slug: "Bags", label: "Bags", blurb: "Goyard & Louis Vuitton bags, photographed in-hand.", image: "assets/img/bago/252015033/1.jpg" },
   { slug: "Tech", label: "Tech", blurb: "Apple, audio and gadgets — best-version tech.", image: "assets/img/monster/airpodsmax.jpg" },
   { slug: "Clothes", label: "Clothes", blurb: "Nike apparel from PJS — jackets, tees, pulls and bottoms.", image: "assets/img/pjs/gallery/pjs-yp-231415394/1.jpg" },
-  { slug: "Boots", label: "Boots", blurb: "Leather boots built for the long haul.", image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?q=80&w=600&auto=format&fit=crop" },
-  { slug: "Tops", label: "Tops", blurb: "Hoodies, crewnecks and tees, measured flat.", image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=600&auto=format&fit=crop" },
-  { slug: "Outerwear", label: "Outerwear", blurb: "Jackets and coats, graded and honest.", image: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?q=80&w=600&auto=format&fit=crop" },
-  { slug: "Bottoms", label: "Bottoms", blurb: "Denim and trousers with real measurements.", image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600&auto=format&fit=crop" },
-  { slug: "Audio", label: "Audio", blurb: "Headphones and earbuds, bench-tested.", image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=600&auto=format&fit=crop" },
-  { slug: "Peripherals", label: "Setup", blurb: "Keyboards, mice and controllers, tested per unit.", image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=600&auto=format&fit=crop" },
-  { slug: "Watches", label: "Watches", blurb: "Timepieces, movement-tested before dispatch.", image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop" },
 ];
 
 const _h = (s) => [...String(s)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7);
@@ -282,55 +275,9 @@ const PJS_PRODUCTS = (typeof PJS_RAW !== "undefined" ? PJS_RAW : []).map(_mkPjs)
 const BAGOASIS_PRODUCTS = (typeof BAGO_RAW !== "undefined" ? BAGO_RAW : []).map(_mkBago);
 
 /* Demo products for the remaining two sellers (prices in USD). */
+/* Reviving Fashion is a coming-soon placeholder (its real catalog is
+   added later); MonsterTechnology below is a real seller. */
 const OTHER_PRODUCTS = [
-  {
-    id: "rev-denim-jacket", vendor: "reviving", category: "Outerwear", subcategory: "Denim Jackets",
-    name: "Vintage Denim Trucker Jacket", price: 68, tag: "Hot", rating: 4.9, reviews: 340,
-    material: "14oz denim · broken-in",
-    description: "A broken-in trucker with a perfect fade. Washed, repaired where needed, and measured flat. Each jacket is one of one.",
-    details: ["14oz denim, natural fade", "Professionally washed", "Pit-to-pit & length listed", "One of one"],
-    image: "https://images.unsplash.com/photo-1551537482-f2075a1d41f2?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "rev-field-jacket", vendor: "reviving", category: "Outerwear", subcategory: "Bombers",
-    name: "Vintage Bomber Jacket 'Rust'", price: 84, tag: null, rating: 4.8, reviews: 156,
-    material: "Nylon shell · ribbed trims",
-    description: "A vintage bomber in a deep rust colorway with ribbed trims. Sourced, deodorized, and graded a strong 8.5/10.",
-    details: ["Vintage nylon flight shell", "Ribbed collar, cuffs & hem", "Condition graded 8.5/10", "Measured flat"],
-    image: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "rev-heavy-hoodie", vendor: "reviving", category: "Tops", subcategory: "Hoodies & Crewnecks",
-    name: "Heavyweight Crewneck 450gsm", price: 52, tag: "New", rating: 4.8, reviews: 289,
-    material: "450gsm loopback cotton",
-    description: "A deadstock heavyweight blank crewneck in off-white. 450gsm loopback, boxy cut, pre-washed twice so there's no shrink left in it.",
-    details: ["450gsm loopback cotton", "Pre-washed twice", "Boxy contemporary cut", "Deadstock, limited sizes"],
-    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "rev-tee-pack", vendor: "reviving", category: "Tops", subcategory: "Tees",
-    name: "Revived Tee 3-Pack (Graded A)", price: 39, tag: "Bestseller", rating: 4.7, reviews: 511,
-    material: "Assorted cotton · graded A",
-    description: "Three grade-A vintage blanks in your size, washed, pressed and ready. Tell us your palette and we pick the pack.",
-    details: ["3 graded-A vintage tees", "Washed & pressed", "Choose light / dark / mixed", "Sized by real measurements"],
-    image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "rev-jeans", vendor: "reviving", category: "Bottoms", subcategory: "Jeans",
-    name: "Straight-Leg Jeans '90s Wash", price: 58, tag: "New", rating: 4.8, reviews: 198,
-    material: "Rigid denim · 90s wash",
-    description: "A true '90s straight leg in an honest mid wash. Waist and inseam are measured flat on every single pair, no size-tag lottery.",
-    details: ["Rigid non-stretch denim", "Authentic 90s mid wash", "Waist/inseam measured flat", "One of one per listing"],
-    image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=800&auto=format&fit=crop",
-  },
-  {
-    id: "rev-overcoat", vendor: "reviving", category: "Outerwear", subcategory: "Coats",
-    name: "Wool Trench Coat 'Camel'", price: 129, tag: null, rating: 4.9, reviews: 87,
-    material: "Wool blend · full lining",
-    description: "A classic camel trench from the racks of Milan. Dry-cleaned, buttons relined, and graded 9/10.",
-    details: ["Wool blend", "Fully lined", "Dry-cleaned before listing", "Condition graded 9/10"],
-    image: "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?q=80&w=800&auto=format&fit=crop",
-  },
   {
     id: "tech-airpodsmax", vendor: "monstertech", category: "Tech", subcategory: "Audio",
     name: "AirPods Max (Best Version)", price: 630, tag: "Hot", material: "Over-ear · ANC",

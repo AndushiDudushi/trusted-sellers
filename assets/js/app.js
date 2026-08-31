@@ -643,13 +643,7 @@
         <button class="fav-btn ${Favs.has(p.id) ? "is-active" : ""}" data-fav="${p.id}" aria-label="${Favs.has(p.id) ? "Remove" : "Save"} ${attr(p.name)}" aria-pressed="${Favs.has(p.id)}">
           <span class="w-4 h-4 block">${ICON.heart}</span>
         </button>
-        ${
-          p.weidian
-            ? `<a class="quick-order quick-buy" href="${attr(p.weidian)}" target="_blank" rel="noopener" aria-label="Buy ${attr(p.name)} on Weidian" title="Buy on Weidian"><span class="w-4 h-4 block">${ICON.cart}</span></a>`
-            : wa
-            ? `<a class="quick-order" href="${wa}" target="_blank" rel="noopener" aria-label="Order ${attr(p.name)} on WhatsApp" title="Order on WhatsApp"><span class="w-4 h-4 block">${ICON.whatsapp}</span></a>`
-            : ""
-        }
+        <button class="quick-add" data-add-cart="${p.id}" aria-label="Add ${attr(p.name)} to cart" title="Add to cart"><span class="w-4 h-4 block">${ICON.plus}</span></button>
       </article>`;
   }
 

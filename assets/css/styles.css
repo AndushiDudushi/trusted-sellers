@@ -787,3 +787,16 @@ p { text-wrap: pretty; }
 
 /* constrain icons inside any pill button (fixes oversized inline SVGs) */
 .btn > svg { width: 18px; height: 18px; flex: 0 0 auto; }
+
+/* ============================================================
+   Loading skeletons (shown until the catalog JS renders)
+   ============================================================ */
+.skeleton-media { aspect-ratio: 1 / 1; border-radius: var(--r-md); background: var(--surface-2); }
+.skeleton-line { height: 0.7rem; border-radius: 6px; background: var(--surface-2); }
+.sk-line-1 { width: 45%; margin-top: 0.8rem; }
+.sk-line-2 { width: 72%; margin-top: 0.5rem; }
+.sk-line-3 { width: 34%; margin-top: 0.5rem; }
+/* fade skeletons out once real content arrives (grid gets repopulated) */
+
+/* quick-add press feedback */
+.quick-add.pop { animation: btnPop 320ms var(--spring); }
