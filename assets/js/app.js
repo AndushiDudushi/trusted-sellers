@@ -776,6 +776,7 @@
   ---------------------------------------------------------- */
   function observeReveals(scope = document) {
     const els = qsa(".reveal:not(.is-visible)", scope);
+    if (!els.length) return;
     if (!("IntersectionObserver" in window)) {
       els.forEach((el) => el.classList.add("is-visible"));
       return;
@@ -789,9 +790,21 @@
           }
         });
       },
-      { threshold: 0.1 }
+      { threshold: 0.08 }
     );
     els.forEach((el) => io.observe(el));
+    // Safety net: never leave content stuck invisible if the observer
+    // misses the initial batch (hidden/0-size viewport at load, slow paint).
+    const sweep = () => els.forEach((el) => {
+      if (el.classList.contains("is-visible")) return;
+      if (el.getBoundingClientRect().top < (window.innerHeight || 900) + 40) {
+        el.classList.add("is-visible");
+        io.unobserve(el);
+      }
+    });
+    requestAnimationFrame(() => requestAnimationFrame(sweep));
+    setTimeout(sweep, 800);
+    setTimeout(() => els.forEach((el) => el.classList.add("is-visible")), 2600);
   }
 
   /* ----------------------------------------------------------
