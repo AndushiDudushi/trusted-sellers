@@ -1,0 +1,14 @@
+{
+  "name": "Trusted Sellers",
+  "short_name": "Trusted Sellers",
+  "description": "QC-checked sneakers, designer bags, tech and apparel from trusted sellers.",
+  "start_url": "/trusted-sellers/",
+  "scope": "/trusted-sellers/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#09090b",
+  "icons": [
+    { "src": "assets/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

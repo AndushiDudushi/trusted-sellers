@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://andushidudushi.github.io/trusted-sellers/sitemap.xml

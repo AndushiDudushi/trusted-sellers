@@ -278,6 +278,15 @@
       </div>`;
     document.body.prepend(header);
 
+    /* Skip-to-content link (keyboard/screen-reader accessibility) */
+    const mainEl = qs("main");
+    if (mainEl && !mainEl.id) mainEl.id = "main";
+    const skip = document.createElement("a");
+    skip.href = "#main";
+    skip.className = "skip-link";
+    skip.textContent = "Skip to content";
+    document.body.prepend(skip);
+
     /* Header gains a solid glass + hairline once the page scrolls */
     const onScroll = () => header.classList.toggle("is-stuck", window.scrollY > 12);
     onScroll();
@@ -311,16 +320,19 @@
               <li><a class="link-line" href="shop.html?tag=New">New Arrivals</a></li>
               <li><a class="link-line" href="shop.html?tag=Hot">Hot Right Now</a></li>
               <li><a class="link-line" href="how-to-buy.html">How to buy</a></li>
+              <li><a class="link-line" href="faq.html">FAQ</a></li>
               <li><a class="link-line" href="shop.html?fav=1">Saved Items</a></li>
             </ul>
           </div>
         </div>
         <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 border-t hairline text-xs" style="color:var(--ink-faint)">
           <p>© 2026 Trusted Sellers. A showcase catalog. Orders are handled directly by each seller.</p>
-          <p class="flex items-center gap-4">
+          <p class="flex items-center flex-wrap justify-center gap-x-4 gap-y-2">
             <a href="how-to-buy.html" class="link-line">How to buy</a>
+            <a href="faq.html" class="link-line">FAQ</a>
+            <a href="privacy.html" class="link-line">Privacy</a>
+            <a href="terms.html" class="link-line">Terms</a>
             <a href="https://discord.gg/dcDbp3ENG8" target="_blank" rel="noopener" class="link-line">Discord</a>
-            <span class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 block" style="color:var(--brand)">${ICON.badgeCheck}</span>Order direct from the seller</span>
           </p>
         </div>
       </div>`;
