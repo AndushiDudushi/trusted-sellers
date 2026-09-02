@@ -1,0 +1,12 @@
+{
+  // Cloudflare Workers config for serving this site as static assets.
+  // There is no Worker code — "assets.directory" points Cloudflare at the
+  // repo root, and every file there (minus what's in .assetsignore) is served
+  // straight from Cloudflare's CDN. The _headers file in the same directory
+  // still applies (CSP + security headers).
+  "name": "trusted-sellers",
+  "compatibility_date": "2026-08-31",
+  "assets": {
+    "directory": "."
+  }
+}

@@ -1,0 +1,36 @@
+# Files Wrangler must NOT upload as static assets to Cloudflare.
+# Same syntax as .gitignore.
+#
+# Why this file exists: the .git folder (~450 MiB) broke the first deploy —
+# its single 441 MiB pack file exceeds Cloudflare's 25 MiB per-asset limit.
+# We exclude .git several ways AND exclude *.pack/*.idx/etc. by extension as a
+# guaranteed fallback, so the oversized Git pack can never be uploaded.
+
+# --- Git internals (the culprit) ---
+.git
+.git/
+**/.git
+**/.git/
+**/.git/**
+*.pack
+*.idx
+*.rev
+*.bitmap
+
+# --- Local tooling / dev files that are not part of the website ---
+node_modules
+node_modules/
+**/node_modules/**
+.wrangler
+.wrangler/
+**/.wrangler/**
+.github/
+.claude/
+scripts/
+.gitignore
+.assetsignore
+.nojekyll
+README.md
+serve.py
+wrangler.jsonc
+wrangler.toml
