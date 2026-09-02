@@ -7,6 +7,9 @@
   "name": "trusted-sellers",
   "compatibility_date": "2026-08-31",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    // Serve the custom 404.html (with a real 404 status) for unknown routes,
+    // the way GitHub Pages did automatically.
+    "not_found_handling": "404-page"
   }
 }
